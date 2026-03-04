@@ -169,7 +169,6 @@ struct ContentView: View {
                 Label("Settings", systemImage: "gearshape")
             }
         }
-        
     }
 
     
