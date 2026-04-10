@@ -62,3 +62,6 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 MLX-chatbot.xcodeproj/project.xcworkspace/xcuserdata/AVLA Student.xcuserdatad/UserInterfaceState.xcuserstate
 MLX-chatbot.xcodeproj/project.xcworkspace/xcuserdata/AVLA Student.xcuserdatad/UserInterfaceState.xcuserstate
+.DS_Store
+MLX-chatbot.xcodeproj/project.xcworkspace/xcuserdata/AVLA Student.xcuserdatad/UserInterfaceState.xcuserstate
+MLX-chatbot/.DS_Store
