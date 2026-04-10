@@ -751,7 +751,7 @@ struct ContentView: View {
             }
         }
     }
-    //Viusls mostly
+    //Visuals mostly
     private var modelLoadingOverlay: some View {
         Group {
             if vm.isModelLoading {
@@ -863,6 +863,7 @@ struct ContentView: View {
             }
         }
     }
+    
     
 }
 
