@@ -42,7 +42,7 @@ import CreateML
 
 
 
-//@main
+@main
 struct MLX_chatbotApp: App {
     var body: some Scene {
         WindowGroup {
