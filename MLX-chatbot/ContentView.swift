@@ -4,12 +4,36 @@
 //
 //  Created by AVELA Student on 2/23/26.
 //
+//  ─────────────────────────────────────────────────────────────
+//  WELCOME, STUDENT DEVELOPER!
+//
+//  This file controls everything you SEE in the app — all the
+//  screens, buttons, text, and layouts.
+//
+//  The AI logic (how the model thinks and trains) lives in
+//  ChatView.swift. You don't need to touch that file.
+//
+//  ★ THINGS YOU CAN CUSTOMISE IN THIS FILE:
+//    1. The app's colour scheme         → search "suggestedQuestions"
+//    2. The starter questions on screen → search "suggestedQuestions"
+//    3. The built-in course names       → search "modelOptions"
+//    4. Welcome message text            → search "welcomeView"
+//    5. Settings labels & version       → search "settingsView"
+//    6. The app navigation title        → search "navigationTitle"
+//  ─────────────────────────────────────────────────────────────
 
 import SwiftUI
-import Combine
-import UniformTypeIdentifiers
+import Combine          // needed for Timer (the "thinking" counter)
+import UniformTypeIdentifiers  // needed for drag-and-drop PDF support
 
-// cleaning color hex codes
+// ─────────────────────────────────────────────────────────────
+// COLOUR HELPER
+// SwiftUI normally only accepts colours by name (e.g. .blue, .red).
+// This extension lets you use standard hex codes like "#FF5733" instead,
+// which makes it much easier to match a school's brand colours.
+// You don't need to change anything here — just use Color(hex: "#RRGGBB")
+// anywhere in the file to set a custom colour.
+// ─────────────────────────────────────────────────────────────
 extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
@@ -53,15 +77,19 @@ extension Color {
     }
 }
 
-// Keep track of multiple ongoing or past chat sessions.
-// Display a list of sessions (using the id for uniqueness).
-// Restore or update
+// ─────────────────────────────────────────────────────────────
+// CHAT SESSION
+// A "session" is one conversation — like opening a new chat window.
+// Each session remembers which course was active, all the messages
+// that were sent, and when it was created.
+// The app can hold many sessions at once (shown in the History tab).
+// ─────────────────────────────────────────────────────────────
 struct ChatUISession: Identifiable {
-    let id: UUID
-    var model: String
-    var messages: [String]
-    let created: Date
-    var alias: String
+    let id: UUID            // unique ID so the app never confuses two sessions
+    var model: String       // which AI course was loaded for this session
+    var messages: [String]  // every message sent and received, in order
+    let created: Date       // timestamp — shown in the History tab
+    var alias: String       // the friendly course name shown to the user
 }
 
 // Mapping, giviing models aliases
@@ -91,6 +119,12 @@ struct ContentView: View {
     @State private var selectedSessionID: UUID? = nil
     // Lets you filter chat session history by the alias
     @State private var historyFilterAlias: String = ""
+    
+    // The ViewModel that owns all AI logic — created once and lives for the lifetime of ContentView
+    @StateObject private var vm = ChatViewModel()
+    
+    // User-created courses added via training (separate from the built-in modelOptions list)
+    @State private var customModelOptions: [ModelOption] = []
     
     @State private var thinkingStartDate: Date? = nil
     @State private var thinkingElapsed: Int = 0
@@ -161,6 +195,12 @@ struct ContentView: View {
     // used to clean names for new courses
     func cleanCourseName(_ name: String) -> String {
         name.hasPrefix("New Course:") ? String(name.dropFirst("New Course:".count)) : name
+    }
+    
+    // Returns the user-facing display name for a model ID — checks custom options first, then built-ins
+    func displayNameFor(_ id: String) -> String {
+        if let alias = customModelOptions.first(where: { $0.id == id })?.name { return alias }
+        return nameFor(id)
     }
     
     // NavigationStack inside Home would let you go deeper within Home, like: multple screens in one tab
@@ -244,8 +284,6 @@ struct ContentView: View {
             
             // 2) Now activate course (stable key can use PDF filename)
             vm.setActiveCourse(selectedCourseKey)
-            
-            vm.selectModel(selectedModel)
         }
         // new time and date as well
         .onChange(of: vm.isReady) { newValue in
@@ -307,7 +345,7 @@ struct ContentView: View {
         }
         .navigationTitle("Course Selection")
     }
-    
+
     // MARK: - Course Selection Section
     private var courseSelectionSection: some View {
         VStack(spacing: 16) {
@@ -357,7 +395,6 @@ struct ContentView: View {
                         // 1) Force base model before applying any adapter
                         let baseModelID = "ShukraJaliya/GENERAL.2"
                         if selectedModel != baseModelID {
-                            vm.selectModel(baseModelID)
                             selectedModel = baseModelID
                         }
                         
@@ -386,7 +423,6 @@ struct ContentView: View {
                         }
                     } else {
                         // Non-adapter selection: normal model switch
-                        vm.selectModel(newModelID)
                         selectedModel = newModelID
                         selectedCourseKey = displayNameFor(newModelID)
                         
@@ -571,92 +607,88 @@ struct ContentView: View {
                     }
                     return true
                 }
-        }
-        
-        // while pdfName is not empty
-        VStack(spacing: 8) {
-            if selectedPDFName != nil {
-                //  if its not trianing return
-                Button(action: {
-                    guard !vm.isTraining else { return }
-                    
-                    // Derive a friendly course name from the current PDF (or use newCourseName if you set it)
-                    guard let pdfURL = vm.currentRAGPDFURL else {
-                        print("No PDF URL set; cannot train.")
-                        return
+            
+            // while pdfName is not empty
+            VStack(spacing: 8) {
+                if selectedPDFName != nil {
+                    //  if its not trianing return
+                    Button(action: {
+                        guard !vm.isTraining else { return }
+                        
+                        // Derive a friendly course name from the current PDF (or use newCourseName if you set it)
+                        guard let pdfURL = vm.currentRAGPDFURL else {
+                            print("No PDF URL set; cannot train.")
+                            return
+                        }
+                        
+                        // just deletes the extra url extentions stuff and uses that as the course name
+                        let defaultName = pdfURL.deletingPathExtension().lastPathComponent
+                        // If the user hasn’t typed a custom name (newCourseName is empty), use defaultName (derived from the PDF filename).
+                        // Otherwise, use the user-provided newCourseName.
+                        let friendlyName = (newCourseName.isEmpty ? defaultName : newCourseName)
+                            .trimmingCharacters(in: .whitespacesAndNewlines)
+                        guard !friendlyName.isEmpty else { return }
+                        
+                        // CLASSIFIER STEP #1: Activate course for classifier routing
+                        vm.setActiveCourse(friendlyName)
+                        
+                        // Kick off your existing unified training (kept as-is)
+                        vm.trainFromCurrentPDF()
+                        
+                        // CLASSIFIER STEP #2: Explicitly train classifier for this course key
+                        Task {
+                            await vm.trainClassifierForCurrentPDF(courseKey: friendlyName)
+                        }
+                        
+                        // CLASSIFIER STEP #3: Ensure classifier courseKey matches selected alias after
+                        vm.setActiveCourse(selectedCourseKey.isEmpty ? "default" : selectedCourseKey)
+                    }) {
+                        Label(
+                            vm.isTraining ? "Training…" : "Save Course",
+                            systemImage: vm.isTraining ? "hourglass" : "hammer"
+                        )
                     }
+                    .buttonStyle(.borderedProminent)
+                    .disabled(selectedPDFName == nil)
                     
-                    // just deletes the extra url extentions stuff and uses that as the course name
-                    let defaultName = pdfURL.deletingPathExtension().lastPathComponent
-                    // If the user hasn’t typed a custom name (newCourseName is empty), use defaultName (derived from the PDF filename).
-                    // Otherwise, use the user-provided newCourseName.
-                    let friendlyName = (newCourseName.isEmpty ? defaultName : newCourseName)
-                        .trimmingCharacters(in: .whitespacesAndNewlines)
-                    guard !friendlyName.isEmpty else { return }
-                    
-                    // CLASSIFIER STEP #1: Activate course for classifier routing
-                    vm.setActiveCourse(friendlyName)
-                    
-                    // Kick off your existing unified training (kept as-is)
-                    vm.trainFromCurrentPDF()
-                    
-                    // CLASSIFIER STEP #2: Explicitly train classifier for this course key
-                    Task {
-                        await vm.trainClassifierForCurrentPDF(courseKey: friendlyName)
-                    }
-                    
-                    // CLASSIFIER STEP #3: Ensure classifier courseKey matches selected alias after
-                    vm.setActiveCourse(selectedCourseKey.isEmpty ? "default" : selectedCourseKey)
-                }) {
-                    Label(
-                        vm.isTraining ? "Training…" : "Save Course",
-                        systemImage: vm.isTraining ? "hourglass" : "hammer"
-                    )
-                }
-                .buttonStyle(.borderedProminent)
-                .disabled(selectedPDFName == nil)
-                
-                // progress bar
-                if vm.isTraining {
-                    Text(
-                        vm.trainingProgress != nil
-                        ? "Training model (LoRA)…"
-                        : (vm.didFinishExtraction ? "Preparing training data…" : "Extracting content…")
-                    )
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                    
-                    if let progress = vm.trainingProgress {
-                        VStack(spacing: 6) {
-                            ProgressView(value: progress, total: 1.0) {
-                                Text("Progress…")
+                    // progress bar
+                    if vm.isTraining {
+                        Text(
+                            vm.trainingProgress != nil
+                            ? "Training model (LoRA)…"
+                            : (vm.didFinishExtraction ? "Preparing training data…" : "Extracting content…")
+                        )
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        
+                        if let progress = vm.trainingProgress {
+                            VStack(spacing: 6) {
+                                ProgressView(value: progress, total: 1.0) {
+                                    Text("Progress…")
+                                }
+                                .frame(width: 200)
+                                
+                                Text("\(Int(progress * 100))%")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        } else {
+                            ProgressView {
+                                Text("Please Wait..")
                             }
                             .frame(width: 200)
-                            
-                            Text("\(Int(progress * 100))%")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
                         }
-                    } else {
-                        ProgressView {
-                            Text("Please Wait..")
-                        }
-                        .frame(width: 200)
                     }
                 }
             }
-        }
-        // When training finishes, show naming sheet to save adapter
-        .onChange(of: vm.isTraining) { isTraining in
-            // Transition from training -> not training
-            if !isTraining, selectedPDFName != nil {
-                showSaveAdapterSheet = true
+            // When training finishes, show naming sheet to save adapter
+            .onChange(of: vm.isTraining) { isTraining in
+                // Transition from training -> not training
+                if !isTraining, selectedPDFName != nil {
+                    showSaveAdapterSheet = true
+                }
             }
         }
-        
-        //file importer. system file browsing
-        // only acetps pdf
-        //no multipple sesyion
         .fileImporter(
             isPresented: $showPDFImporter,
             allowedContentTypes: [.pdf],
@@ -864,22 +896,494 @@ struct ContentView: View {
         }
     }
     
+    private var settingsView: some View {
+#if os(macOS)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 28) {
+                Text("Appearance").font(.title3.bold()).padding(.bottom, 6)
+                HStack {
+                    Label("Theme", systemImage: "paintbrush")
+                    Spacer()
+                    Text("System").foregroundColor(.secondary)
+                }
+                HStack {
+                    Label("Text Size", systemImage: "textformat.size")
+                    Spacer()
+                    Text("Medium").foregroundColor(.secondary)
+                }
+                Divider()
+                
+                Text("Behavior").font(.title3.bold()).padding(.bottom, 6)
+                HStack {
+                    Label("Auto-send on Return", systemImage: "return")
+                    Spacer()
+                    Toggle("", isOn: .constant(false))
+                }
+                HStack {
+                    Label("Save History", systemImage: "externaldrive")
+                    Spacer()
+                    Toggle("", isOn: .constant(true))
+                }
+                HStack {
+                    Label("Smart Suggestions", systemImage: "lightbulb")
+                    Spacer()
+                    Toggle("", isOn: .constant(true))
+                }
+                Divider()
+                
+                Text("Privacy").font(.title3.bold()).padding(.bottom, 6)
+                HStack {
+                    Label("Analytics", systemImage: "chart.bar")
+                    Spacer()
+                    Toggle("", isOn: .constant(false))
+                }
+                Button(role: .destructive) {
+                    // Clear history action
+                } label: {
+                    Label("Clear All History", systemImage: "trash")
+                }
+                Divider()
+                
+                Text("About").font(.title3.bold()).padding(.bottom, 6)
+                HStack {
+                    Label("Version", systemImage: "info.circle")
+                    Spacer()
+                    Text("2.0.1").foregroundColor(.secondary)
+                }
+                HStack {
+                    Label("Build", systemImage: "hammer")
+                    Spacer()
+                    Text("2024.08.08").foregroundColor(.secondary)
+                }
+                Button {
+                    // Show licenses
+                } label: {
+                    Label("Open Source Licenses", systemImage: "doc.text")
+                }
+            }
+            .padding(32)
+            .frame(maxWidth: 500)
+        }
+        .navigationTitle("Settings")
+#else
+        Form {
+            Section("Appearance") {
+                HStack {
+                    Label("Theme", systemImage: "paintbrush")
+                    Spacer()
+                    Text("System").foregroundColor(.secondary)
+                }
+                HStack {
+                    Label("Text Size", systemImage: "textformat.size")
+                    Spacer()
+                    Text("Medium").foregroundColor(.secondary)
+                }
+            }
+            Section("Behavior") {
+                HStack {
+                    Label("Auto-send on Return", systemImage: "return")
+                    Spacer()
+                    Toggle("", isOn: .constant(false))
+                }
+                HStack {
+                    Label("Save History", systemImage: "externaldrive")
+                    Spacer()
+                    Toggle("", isOn: .constant(true))
+                }
+                HStack {
+                    Label("Smart Suggestions", systemImage: "lightbulb")
+                    Spacer()
+                    Toggle("", isOn: .constant(true))
+                }
+            }
+            Section("Privacy") {
+                HStack {
+                    Label("Analytics", systemImage: "chart.bar")
+                    Spacer()
+                    Toggle("", isOn: .constant(false))
+                }
+                Button {
+                    // Clear history action
+                } label: {
+                    Label("Clear All History", systemImage: "trash")
+                        .foregroundColor(.red)
+                }
+            }
+            Section("About") {
+                HStack {
+                    Label("Version", systemImage: "info.circle")
+                    Spacer()
+                    Text("2.0.1").foregroundColor(.secondary)
+                }
+                HStack {
+                    Label("Build", systemImage: "hammer")
+                    Spacer()
+                    Text("2024.08.08").foregroundColor(.secondary)
+                }
+                Button {
+                    // Show licenses
+                } label: {
+                    Label("Open Source Licenses", systemImage: "doc.text")
+                }
+            }
+        }
+        .navigationTitle("Settings")
+#endif
+    }
     
-}
-
+    
+    // MARK: - Home View
+    private var homeView: some View {
+        VStack(spacing: 0) {
+            Image("Logo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 84, height: 84)
+                .shadow(radius: 8)
+                .padding(.top, 24)
+            
+            HStack(spacing: 16) {
+                Button(action: {
+                    let initialAlias = selectedCourseKey.isEmpty ? displayNameFor(selectedModel) : selectedCourseKey
+                    let newSession = ChatUISession(
+                        id: UUID(),
+                        model: selectedModel,
+                        messages: [],
+                        created: Date(),
+                        alias: initialAlias
+                    )
+                    ChatUISessions.insert(newSession, at: 0)
+                    selectedSessionID = newSession.id
+                    vm.messages = []
+                    vm.input = ""
+                    
+                    // switching session => activate the classifier for that course
+                    vm.setActiveCourse(initialAlias)
+                }) {
+                    Label("New Chat", systemImage: "plus")
+                }
+                .buttonStyle(.borderedProminent)
+                .clipShape(RoundedRectangle(cornerRadius: 30))
+            }
+            .padding([.top, .horizontal])
+            Text("Active course: \(cleanCourseName((ChatUISessions.first(where: { $0.id == selectedSessionID })?.alias ?? (selectedCourseKey.isEmpty ? displayNameFor(selectedModel) : selectedCourseKey))))")
+                .font(.subheadline)
+                .foregroundColor(.secondary)
+                .padding(.horizontal)
+                .padding(.top, 4)
+            
+            if vm.messages.isEmpty {
+                welcomeView
+            } else {
+                messagesView
+            }
+            inputView
+        }
+        .id(selectedSessionID ?? UUID())
+        .navigationTitle("AVELA-CourseSLM")
+        .onChange(of: vm.messages) { newMessages in
+            guard let sessionID = selectedSessionID,
+                  let index = ChatUISessions.firstIndex(where: { $0.id == sessionID }) else {
+                return
+            }
+            ChatUISessions[index].messages = newMessages
+        }
+        .overlay(modelLoadingOverlay)
+        .overlay(embeddermodelLoadingOverlay)
+    }
     
     
-    var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+    private var welcomeView: some View {
+        VStack(spacing: 32) {
+            Spacer()
+            VStack(spacing: 16) {
+                Text("Welcome to AVELA AI")
+                    .font(.largeTitle.bold())
+                Text("Click to learn about data activism.")
+                    .font(.title3)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                
+                VStack(spacing: 12) {
+                    HStack(spacing: 12) {
+                        ForEach(Array(suggestedQuestions.prefix(3).enumerated()), id: \.element) { (index, question) in
+                            Button(action: {
+                                vm.input = question
+                                vm.send()
+                            }) {
+                                Text(question)
+                                    .font(.callout)
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 18)
+                                    .padding(.vertical, 14)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 30)
+                                    )
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel(question)
+                        }
+                    }
+                    HStack(spacing: 12) {
+                        ForEach(Array(suggestedQuestions.suffix(2).enumerated()), id: \.element) { (index, question) in
+                            Button(action: {
+                                vm.input = question
+                                vm.send()
+                            }) {
+                                Text(question)
+                                    .font(.callout)
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 18)
+                                    .padding(.vertical, 14)
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 30)
+                                    )
+                            }
+                            .buttonStyle(.plain)
+                            .accessibilityLabel(question)
+                        }
+                    }
+                }
+                .padding(.vertical)
+            }
+            Spacer()
         }
         .padding()
     }
+    private var messagesView: some View {
+        ScrollViewReader { proxy in
+            let starterOffset: Int = {
+                guard let first = vm.messages.first,
+                      let idx = starterColorIndex(for: first) else {
+                    return 0
+                }
+                return idx
+            }()
+            
+            ScrollView {
+                LazyVStack(spacing: 12) {
+                    ForEach(Array(vm.messages.enumerated()), id: \.offset) { index, message in
+                        MessageBubble(message: message,
+                                      colorIndex: index + starterOffset,
+                                      palette: [Color.blue])
+                        .id(index)
+                    }
+                }
+                .padding()
+            }
+            .onChange(of: vm.messages.count) { _ in
+                if let lastIndex = vm.messages.indices.last {
+                    withAnimation(.easeInOut(duration: 0.5)) {
+                        proxy.scrollTo(lastIndex, anchor: .bottom)
+                    }
+                }
+            }
+        }
+    }
+    
+    private var inputView: some View {
+        ZStack {
+            VStack(spacing: 0) {
+                Divider()
+                HStack(alignment: .top, spacing: 16) {
+                    TextField("Type a message...",
+                              text: $vm.input,
+                              axis: .vertical)
+                    .textFieldStyle(.plain)
+                    .font(.system(size: 16))
+                    .padding(.horizontal, 24)
+                    .padding(.vertical, 24)
+                    .frame(minHeight: 120, alignment: .topLeading)
+                    .background(
+                        RoundedRectangle(cornerRadius: 28)
+                            .fill(Color.gray.opacity(0.1))
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 28)
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 1.5)
+                    )
+                    .lineLimit(1...12)
+                    .disabled(!vm.isReady)
+                    
+                    Button("Send") {
+                        vm.send()
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                    .padding(.top, 20)
+                    .disabled(vm.input.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !vm.isReady)
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 24)
+                
+                if !vm.isReady {
+                    Text("Thinking for \(thinkingElapsed) second(s)...")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                        .padding(.horizontal)
+                        .padding(.bottom, 6)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+#if os(macOS)
+            .background(Color(NSColor.controlBackgroundColor))
+#else
+            .background(Color(.systemBackground))
+#endif
+        }
+        .clipShape(RoundedRectangle(cornerRadius: 16))
+        .padding(.horizontal, 8)
+        .onReceive(
+            Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+        ) { _ in
+            if let start = thinkingStartDate, !vm.isReady {
+                thinkingElapsed = Int(Date().timeIntervalSince(start))
+            } else {
+                thinkingElapsed = 0
+            }
+        }
+    }
+    // MARK: - History View
+    private var historyView: some View {
+        NavigationStack {
+            List {
+                VStack(alignment: .leading, spacing: 12) {
+                    Button(action: {
+                        let initialAlias = selectedCourseKey.isEmpty ? displayNameFor(selectedModel) : selectedCourseKey
+                        let newSession = ChatUISession(
+                            id: UUID(),
+                            model: selectedModel,
+                            messages: [],
+                            created: Date(),
+                            alias: initialAlias
+                        )
+                        ChatUISessions.insert(newSession, at: 0)
+                        selectedSessionID = newSession.id
+                        vm.messages = []
+                        vm.input = ""
+                        vm.setActiveCourse(initialAlias)
+                    }) {
+                        Label("New Chat", systemImage: "plus")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                    
+                    Picker("Alias", selection: $historyFilterAlias) {
+                        Text("All Aliases").tag("")
+                        ForEach(Array(Set(ChatUISessions.map { $0.alias })).sorted(), id: \.self) { alias in
+                            Text(alias).tag(alias)
+                        }
+                    }
+                    .pickerStyle(.menu)
+                }
+                .padding([.top, .horizontal])
+                
+                Section(header: Text(historyFilterAlias.isEmpty ? "All Sessions" : historyFilterAlias)) {
+                    ForEach(ChatUISessions.filter { historyFilterAlias.isEmpty ? true : $0.alias == historyFilterAlias }.prefix(5)) { session in
+                        VStack(alignment: .leading, spacing: 4) {
+                            Button {
+                                selectedSessionID = session.id
+                                vm.messages = session.messages
+                                selectedModel = session.model
+                                selectedCourseKey = session.alias
+                                vm.setActiveCourse(selectedCourseKey)
+                            } label: {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(session.alias)
+                                        .font(.headline)
+                                    if let lastMessage = session.messages.last {
+                                        Text(lastMessage)
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                            .lineLimit(1)
+                                    } else {
+                                        Text("No messages yet")
+                                            .font(.caption)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    Text(session.created, style: .relative)
+                                        .font(.caption2)
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            .buttonStyle(.plain)
+                        }
+                        .padding(.vertical, 2)
+                    }
+                }
+            }
+            .navigationTitle("History")
+        }
+    }
+}
 
+// Message bubble
+struct MessageBubble: View {
+        let message: String
+        let colorIndex: Int
+        let palette: [Color]
+        
+        private var isUser: Bool {
+            message.starts(with: "You:")
+        }
+        
+        private var displayText: String {
+            if isUser {
+                return String(message.dropFirst(4))
+            } else if message.starts(with: "Bot:") {
+                return String(message.dropFirst(4))
+            }
+            return message
+        }
+        
+        var body: some View {
+            HStack(alignment: .top, spacing: 12) {
+                if isUser {
+                    Spacer(minLength: 60)
+                    Text(displayText)
+                        .font(.body)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
+                        .background(
+                            RoundedRectangle(cornerRadius: 18)
+                                .fill(palette[colorIndex % palette.count])
+                        )
+                    Image(systemName: "person.fill")
+                        .foregroundColor(.white)
+                        .background(
+                            Circle()
+                                .fill(Color.gray)
+                                .frame(width: 36, height: 36)
+                        )
+                        .frame(width: 36, height: 36)
+                } else {
+                    Image("Logo")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 36, height: 36)
+                        .clipShape(Circle())
+                        .background(
+                            Circle()
+                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        )
+                    Text(displayText)
+                        .font(.body)
+                        .foregroundColor(.primary)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 10)
+                        .background(
+                            RoundedRectangle(cornerRadius: 18)
+                                .fill(Color.gray.opacity(0.2))
+                        )
+                    Spacer(minLength: 60)
+                }
+            }
+        }
+    }
 
 #Preview {
     ContentView()
 }
+
