@@ -3,7 +3,7 @@
 //  MLX-chatbot
 //
 //  Created by AVELA Student on 2/23/26.
-//
+// giving a trial
 //  ─────────────────────────────────────────────────────────────
 //  WELCOME, STUDENT DEVELOPER!
 //
