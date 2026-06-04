@@ -1,0 +1,49 @@
+import SwiftUI // gives us access to all UI components
+
+struct ContentView: View {
+
+    let name = "Ruth Ketsela Amaha"         // stores the name
+    let bio = "Something cool about me."    // stores the bio
+    let interests = ["Gaming", "Music", "Coding"] // list of interests
+
+    var body: some View {
+
+        VStack(spacing: 16) { // stacks views vertically with 16pt gaps
+
+            Text(name) // displays the name
+                .font(.title)       // large title size
+                .fontWeight(.bold)  // makes it bold
+
+            Image(systemName: "person.circle.fill") // SF Symbol icon
+                .resizable()                        // allows resizing
+                .frame(width: 100, height: 100)     // sets size
+                .foregroundStyle(.purple)           // colors it purple
+
+            Text(bio) // displays the bio
+                .foregroundStyle(.secondary) // grays it out
+
+            Divider() // draws a horizontal line
+
+            HStack { // arranges interest tags side by side
+                ForEach(interests, id: \.self) { interest in // loops through interests
+                    Text(interest)
+                        .padding(8)                               // adds space inside tag
+                        .background(Color.purple.opacity(0.12))  // light purple background
+                        .clipShape(Capsule())                     // rounds into pill shape
+                }
+            }
+
+            Button("Say Hello") { // tappable button
+                print("Hello, \(name)!") // prints to console when tapped
+            }
+            .buttonStyle(.borderedProminent) // solid filled style
+            .tint(.purple)                   // colors it purple
+
+        }
+        .padding() // adds space around the whole card
+    }
+}
+
+#Preview { // shows a live preview in Xcode
+    ContentView()
+}
