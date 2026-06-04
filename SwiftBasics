@@ -1,0 +1,197 @@
+// ============================================================
+//  Swift Basics Worksheet
+//  AVELA – Introduction to AI & ML, Lesson 4
+// ============================================================
+//  Instructions: Copy/Paste into https://www.onlineide.pro/playground/swift
+//  Read each example line of code, then follow
+//  the TODO comments below it to write your own!
+//  Run your code after each section to see your output.
+// ============================================================
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 1: Print Statements
+//  print() tells your computer to display a message.
+// ────────────────────────────────────────────────────────────
+
+print("Hello, World!")
+
+// TODO: Print YOUR name (e.g., print("Hello, I'm Jordan!"))
+
+// TODO: Print a welcome message to the class (e.g., "Welcome to Swift!")
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 2: Syntax — Comments & Curly Braces
+//  // is a single-line comment. It does NOT run as code.
+//  Curly braces { } group blocks of code together.
+//  Quotation marks " " create text.
+//  Parentheses ( ) pass information into a command.
+// ────────────────────────────────────────────────────────────
+
+// This comment explains the print below — it does NOT run as code
+if true {
+    print("Syntax check passed!")
+}
+
+// TODO: Add a comment above the if-block below explaining what it does
+if true {
+    print("My comment describes this line!")
+}
+
+// TODO: Write your own if true { } block that prints your favorite subject
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 3: Variables & Constants
+//  let  = constant  (value CANNOT change)
+//  var  = variable  (value CAN change)
+//
+//  Every value has a data type:
+//    String  — text in quotation marks   "Hello"
+//    Int     — whole numbers              42
+//    Double  — decimal numbers            3.14
+//    Bool    — true or false              true
+// ────────────────────────────────────────────────────────────
+
+let birthYear = 2005        // constant — birthYear will never change
+
+// TODO: Create a constant (let) for your own birth year
+
+var score = 0               // variable — score will go up as you play
+
+// TODO: Create a variable (var) for your current grade or age
+
+var greeting: String = "Hello, Swift!"  // String
+
+// TODO: Create a String variable for your favorite app or game name
+
+var numberOfApps: Int = 3               // Int
+
+// TODO: Create an Int variable for the number of apps on your phone
+
+var batteryLevel: Double = 87.5         // Double
+
+// TODO: Create a Double variable for your GPA or a temperature
+
+var isLearningSwift: Bool = true        // Bool
+
+// TODO: Create a Bool variable that is true or false about you
+//       (e.g., var likesMusic: Bool = true)
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 4: @State  (SwiftUI only — paste into a SwiftUI View)
+//  @State stores a value that, when changed, automatically
+//  refreshes what the user sees on screen.
+// ────────────────────────────────────────────────────────────
+
+//  NOTE: @State only works inside a SwiftUI View struct.
+//  The example below is for reference — you will use it in Xcode!
+
+/*
+ @State private var showRobot = true   // stores whether the robot is visible
+
+ Button("Hide Robot") {
+     showRobot.toggle()                // flips true → false → true …
+ }
+*/
+
+// TODO: Write a @State variable that stores whether dark mode is ON or OFF
+//       e.g., @State private var isDarkMode = false
+
+// TODO: Write a comment describing what would happen on screen
+//       if isDarkMode were toggled by a button
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 5: Arrays
+//  Arrays store an ordered list of values.
+//  The first item is at index 0, the second at index 1, etc.
+// ────────────────────────────────────────────────────────────
+
+var bestRappers = ["J. Cole", "Drake", "Kendrick Lamar"]
+
+print(bestRappers[0])   // prints "J. Cole" — the item at index 0
+
+// TODO: Print the item at index 1 from bestRappers
+
+// TODO: Create your own array of 3 of your favorite foods
+//       (e.g., var favoriteFoods = ["Pizza", "Sushi", "Tacos"])
+
+// TODO: Print the first item from YOUR array using index 0
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 6: Structs
+//  A struct is a blueprint that groups related data together.
+//  You define it once, then create as many copies as you need.
+// ────────────────────────────────────────────────────────────
+
+struct Rapper {
+    var name: String
+    var age: Int
+    var favAlbum: String
+}
+
+var drake = Rapper(name: "Drake", age: 37, favAlbum: "Take Care")
+print(drake.name)   // prints "Drake"
+
+// TODO: Create another Rapper using the struct above (pick any artist!)
+//       e.g., var kendrick = Rapper(name: "Kendrick Lamar", age: 36, favAlbum: "DAMN.")
+
+// TODO: Print the favAlbum of the Rapper you just created
+
+// TODO: Create your OWN struct called Student with these three properties:
+//         - name            (String)
+//         - grade           (Int)
+//         - favoriteSubject (String)
+
+// TODO: Create a Student variable using your new struct and fill in real values
+
+// TODO: Print the name property of your Student
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 7: SwiftUI View Basics — ContentView & Body
+//  In SwiftUI, every screen is a struct with a body property.
+//  Everything you want users to SEE goes inside the body.
+// ────────────────────────────────────────────────────────────
+
+/*
+ struct ContentView: View {
+     var body: some View {
+         Text("Hello, World!")   // this text appears on screen
+     }
+ }
+*/
+
+// TODO: Copy the ContentView struct above and change the Text to say
+//       something about yourself (e.g., "Hi, I'm [Your Name]!")
+
+// TODO: Add a second Text element inside the body, below the first one,
+//       that displays your favorite quote or motto
+
+
+// ============================================================
+//  BONUS CHALLENGE
+//  Combine everything you've learned!
+// ============================================================
+
+// TODO: Create a struct called ChatMessage with:
+//         - sender     (String)
+//         - message    (String)
+//         - isFromUser (Bool)
+
+// TODO: Create two ChatMessage values — one from the user, one from a bot
+
+// TODO: Print the message property of both ChatMessages
+
+// TODO: Create an array called conversation that holds both ChatMessages
+
+// TODO: Print the sender of the first message using index 0
+
+// ============================================================
+//  Great work! You've covered the Swift basics from Lesson 4.
+//  Save your file and show your instructor when done.
+// ============================================================
