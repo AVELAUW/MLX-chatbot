@@ -1,0 +1,66 @@
+import SwiftUI // gives us access to all UI components
+// Stuck on imports? Check out Section 7 of Swift Basics (SwiftUI View Basics)
+
+struct ContentView: View {
+    // Stuck on structs? Check out Section 6 of Swift Basics (Structs)
+
+    // declare a constant to store your full name as text
+    // Stuck? Check out Section 3 of Swift Basics (Variables & Constants)
+
+    // declare a constant to store a short bio as text
+    // Stuck? Check out Section 3 of Swift Basics (Variables & Constants)
+
+    // declare a constant to store a list of your interests (this is an array!)
+    // Stuck? Check out Section 5 of Swift Basics (Arrays)
+
+    var body: some View {
+        // Stuck on body? Check out Section 7 of Swift Basics (ContentView & Body)
+
+        VStack(spacing: 16) { // stacks views vertically with 16pt gaps
+
+            // display your name
+            // set the font size to title
+            // make it bold
+            // Stuck on Text? Check out Section 7 of Swift Basics (SwiftUI View Basics)
+
+            // display a circular profile image using an SF Symbol
+            // make the image resizable
+            // set the width and height to 100 points
+            // choose a color for it
+            // Stuck on Image? Check out Section 7 of Swift Basics (SwiftUI View Basics)
+
+            // display your bio
+            // make the text color secondary (gray)
+            // Stuck? Check out Section 3 of Swift Basics (Variables & Constants)
+
+            Divider() // draws a horizontal line
+
+            HStack { // arranges interest tags side by side
+                ForEach(interests, id: \.self) { interest in // loops through each interest
+                    // Stuck on ForEach or interests? Check out Section 5 of Swift Basics (Arrays)
+
+                    // display each interest as text
+                    // add 8 points of padding around the text
+                    // give it a light-colored background
+                    // round the corners into a pill shape
+                    // Stuck on Text? Check out Section 7 of Swift Basics (SwiftUI View Basics)
+
+                } // end ForEach
+            } // end HStack
+
+            // create a button with a label
+            // when tapped, print a greeting message using your name
+            // Stuck on print? Check out Section 1 of Swift Basics (Print Statements)
+            // apply a solid filled style to the button
+            // color the button to match your profile image
+            // Stuck on Button? Check out Section 7 of Swift Basics (SwiftUI View Basics)
+
+        } // end VStack
+        .padding() // adds space around the whole card
+
+    } // end body
+} // end ContentView
+
+#Preview { // shows a live preview in Xcode
+    ContentView()
+}
