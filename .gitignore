@@ -82,8 +82,9 @@ __pycache__/
 *.pyc
 *.pyo
 
-# Auto-generated validation split (recreated from train.jsonl on each run)
+# Auto-generated splits (recreated from train.jsonl on each run)
 MLX-chatbot/DATA_DIR/valid.jsonl
+MLX-chatbot/DATA_DIR/test.jsonl
 
 # Xcode package resolution cache
 MLX-chatbot.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/

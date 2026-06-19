@@ -2,7 +2,7 @@ AVELA MLX Chatbot — Instructions
 ==================================
 
 ## Paste this in terminal
-   python3 ~/Documents/GitHub/MLX-chatbot/train_qwen_lora.py
+   python3 ~/Documents/GitHub/MLX-chatbot/MLX-chatbot/train_qwen_lora.py
 
 
 ## Using copilot on the right to format dataset, paste Paste this in copilot
