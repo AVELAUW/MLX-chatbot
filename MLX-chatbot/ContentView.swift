@@ -12,6 +12,10 @@
 //    4. The app navigation title        → search "navigationTitle"
 //  ─────────────────────────────────────────────────────────────
 
+
+// Paste this in terminal
+//   python3 ~/Documents/GitHub/MLX-chatbot/train_qwen_lora.py
+
 import SwiftUI
 
 // ─────────────────────────────────────────────────────────────
