@@ -17,8 +17,9 @@ print("=" * 50)
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 PROJECT_DIR     = Path(__file__).parent.resolve()
+REPO_ROOT       = PROJECT_DIR.parent
 DATA_DIR        = PROJECT_DIR / "DATA_DIR"
-ADAPTER_PATH    = PROJECT_DIR / "adapters"
+ADAPTER_PATH    = REPO_ROOT / "adapters"
 FUSED_MODEL_DIR = Path.home() / "Library/Containers/AVELA.MLX-chatbot/Data/Library/Application Support/MLX-chatbot/fused_model"
 
 print(f"\nProject : {PROJECT_DIR}")
@@ -82,7 +83,7 @@ if FUSED_MODEL_DIR.exists():
 
 # ── 4. Virtual environment ────────────────────────────────────────────────────
 print("\n── Setting up environment ──")
-venv    = PROJECT_DIR / ".mlx_venv"
+venv    = REPO_ROOT / ".mlx_venv"
 python  = venv / "bin" / "python"
 
 if not venv.exists():
