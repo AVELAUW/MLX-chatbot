@@ -128,9 +128,6 @@ class ChatViewModel: ObservableObject {
         isReady = false
 
         Task { @MainActor in
-            let start = Date()
-
-            // Qwen2.5 chat format
             let prompt = """
             <|im_start|>system
             \(SYSTEM_PROMPT)
@@ -141,20 +138,17 @@ class ChatViewModel: ObservableObject {
             <|im_start|>assistant
             """
 
-            messages.append("Thinking: ")
+            messages.append("")
             let placeholderIndex = messages.count - 1
             var accumulated = ""
 
             do {
                 for try await token in session.streamResponse(to: prompt) {
                     accumulated += token
-                    messages[placeholderIndex] = "Thinking: " + accumulated
+                    messages[placeholderIndex] = accumulated
                 }
-                let elapsed = Date().timeIntervalSince(start)
-                messages[placeholderIndex] = "(\(String(format: "%.1f", elapsed))s): " + accumulated
             } catch {
-                let elapsed = Date().timeIntervalSince(start)
-                messages[placeholderIndex] = "Error (\(String(format: "%.1f", elapsed))s): \(error.localizedDescription)"
+                messages[placeholderIndex] = "Error: \(error.localizedDescription)"
             }
 
             isReady = true

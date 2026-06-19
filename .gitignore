@@ -87,3 +87,5 @@ MLX-chatbot/DATA_DIR/valid.jsonl
 
 # Xcode package resolution cache
 MLX-chatbot.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+MLX-chatbot.xcodeproj/xcshareddata/xcschemes/MLX-chatbot 1.xcscheme
+MLX-chatbot.xcodeproj/xcshareddata/xcschemes/MLX-chatbot.xcscheme

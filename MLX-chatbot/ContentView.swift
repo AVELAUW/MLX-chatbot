@@ -13,7 +13,6 @@
 //  ─────────────────────────────────────────────────────────────
 
 import SwiftUI
-import Combine
 
 // ─────────────────────────────────────────────────────────────
 // COLOUR HELPER — use Color(hex: "#RRGGBB") anywhere below
@@ -45,9 +44,6 @@ struct ContentView: View {
 
     @StateObject private var vm = ChatViewModel()
 
-    @State private var thinkingStartDate: Date? = nil
-    @State private var thinkingElapsed: Int = 0
-
     // ★ Edit these questions to match your course content
     private let suggestedQuestions = [
         "What is data activism?"
@@ -56,14 +52,6 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             homeView
-        }
-        .onChange(of: vm.isReady) { oldValue, newValue in
-            if !newValue {
-                thinkingStartDate = Date()
-            } else {
-                thinkingStartDate = nil
-                thinkingElapsed = 0
-            }
         }
     }
 
@@ -179,14 +167,6 @@ struct ContentView: View {
                 .padding(.horizontal, 24)
                 .padding(.vertical, 24)
 
-                if !vm.isReady && !vm.isModelLoading {
-                    Text("Thinking for \(thinkingElapsed) second(s)...")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
-                        .padding(.horizontal)
-                        .padding(.bottom, 6)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
             }
 #if os(macOS)
             .background(Color(NSColor.controlBackgroundColor))
@@ -196,13 +176,6 @@ struct ContentView: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .padding(.horizontal, 8)
-        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
-            if let start = thinkingStartDate, !vm.isReady {
-                thinkingElapsed = Int(Date().timeIntervalSince(start))
-            } else {
-                thinkingElapsed = 0
-            }
-        }
     }
 
     // MARK: - Model loading overlay
