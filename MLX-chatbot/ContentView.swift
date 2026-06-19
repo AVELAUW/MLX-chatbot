@@ -47,6 +47,7 @@ extension Color {
 struct ContentView: View {
 
     @StateObject private var vm = ChatViewModel()
+    @State private var showResetConfirm = false
 
     // ★ Edit these questions to match your course content
     private let suggestedQuestions = [
@@ -56,6 +57,12 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             homeView
+        }
+        .confirmationDialog("Reset Model?", isPresented: $showResetConfirm, titleVisibility: .visible) {
+            Button("Delete Model & Adapters", role: .destructive) { vm.reset() }
+            Button("Cancel", role: .cancel) { }
+        } message: {
+            Text("This deletes the trained model and adapters. You will need to run train_qwen_lora.py again before using the app.")
         }
     }
 
@@ -79,6 +86,16 @@ struct ContentView: View {
             inputView
         }
         .navigationTitle("AVELA-CourseSLM")
+        .toolbar {
+            ToolbarItem(placement: .automatic) {
+                Button(role: .destructive) {
+                    showResetConfirm = true
+                } label: {
+                    Label("Reset Model", systemImage: "arrow.counterclockwise")
+                }
+                .disabled(vm.isModelLoading)
+            }
+        }
         .overlay(modelLoadingOverlay)
     }
 

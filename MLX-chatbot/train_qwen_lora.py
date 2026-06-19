@@ -19,11 +19,13 @@ print("=" * 50)
 PROJECT_DIR     = Path(__file__).parent.resolve()
 REPO_ROOT       = PROJECT_DIR.parent
 DATA_DIR        = PROJECT_DIR / "DATA_DIR"
-ADAPTER_PATH    = REPO_ROOT / "adapters"
-FUSED_MODEL_DIR = Path.home() / "Library/Containers/AVELA.MLX-chatbot/Data/Library/Application Support/MLX-chatbot/fused_model"
+SANDBOX_DIR     = Path.home() / "Library/Containers/AVELA.MLX-chatbot/Data/Library/Application Support/MLX-chatbot"
+ADAPTER_PATH    = SANDBOX_DIR / "adapters"
+FUSED_MODEL_DIR = SANDBOX_DIR / "fused_model"
 
 print(f"\nProject : {PROJECT_DIR}")
 print(f"Data    : {DATA_DIR}")
+print(f"Adapters: {ADAPTER_PATH}")
 print(f"Output  : {FUSED_MODEL_DIR}")
 
 # ── Training config ────────────────────────────────────────────────────────────
