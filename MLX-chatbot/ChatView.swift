@@ -64,12 +64,14 @@ class ChatViewModel: ObservableObject {
     // This must match FUSED_MODEL_DIR in train_qwen_lora.sh.
     // Default: ~/Library/Application Support/MLX-chatbot/fused_model
 
-    private var fusedModelURL: URL {
+    private var sandboxDir: URL {
         FileManager.default
             .homeDirectoryForCurrentUser
-            .appendingPathComponent("Library/Application Support/MLX-chatbot/fused_model",
-                                   isDirectory: true)
+            .appendingPathComponent("Library/Application Support/MLX-chatbot", isDirectory: true)
     }
+
+    private var fusedModelURL: URL { sandboxDir.appendingPathComponent("fused_model", isDirectory: true) }
+    private var adaptersURL: URL   { sandboxDir.appendingPathComponent("adapters",    isDirectory: true) }
 
     // MARK: - Private state
 
@@ -116,6 +118,18 @@ class ChatViewModel: ObservableObject {
         }
 
         isModelLoading = false
+    }
+
+    // MARK: - Reset
+
+    func reset() {
+        session = nil
+        isReady = false
+        messages = []
+        let fm = FileManager.default
+        try? fm.removeItem(at: fusedModelURL)
+        try? fm.removeItem(at: adaptersURL)
+        messages.append("Model and adapters deleted. Run train_qwen_lora.py in Terminal, then relaunch the app.")
     }
 
     // MARK: - Send
