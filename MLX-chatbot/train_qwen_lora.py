@@ -26,7 +26,7 @@ print(f"Data    : {DATA_DIR}")
 print(f"Output  : {FUSED_MODEL_DIR}")
 
 # ── Training config ────────────────────────────────────────────────────────────
-MODEL            = "Qwen/Qwen2.5-1.5B-Instruct"
+MODEL            = "Qwen/Qwen3-1.7B"
 LEARNING_RATE    = "1e-5"
 ITERS            = "200"
 BATCH_SIZE       = "1"
