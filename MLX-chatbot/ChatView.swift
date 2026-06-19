@@ -137,8 +137,15 @@ class ChatViewModel: ObservableObject {
     func send() {
         guard let session = session, !input.isEmpty else { return }
         let question = input
-        messages.append("You: \(question)")
         input = ""
+
+        if Obadeki.containsOffensiveContent(question) {
+            messages.append("You: \(question)")
+            messages.append("Bot: Intructors can see your conversation. Ask an ontopic question!")
+            return
+        }
+
+        messages.append("You: \(question)")
         isReady = false
 
         Task { @MainActor in
