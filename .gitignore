@@ -89,3 +89,4 @@ MLX-chatbot/DATA_DIR/valid.jsonl
 MLX-chatbot.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
 MLX-chatbot.xcodeproj/xcshareddata/xcschemes/MLX-chatbot 1.xcscheme
 MLX-chatbot.xcodeproj/xcshareddata/xcschemes/MLX-chatbot.xcscheme
+.DS_Store
