@@ -1,8 +1,17 @@
 AVELA MLX Chatbot — Instructions
 ==================================
 
+
+
+## Paste this in terminal to place repo in corect folder
+    python3 ~/Downloads/MLX-chatbot-main/setup_environment.py
+    
+    
+    
 ## Paste this in terminal
    python3 ~/Documents/GitHub/MLX-chatbot/MLX-chatbot/train_qwen_lora.py
+
+
 
 
 ## Using copilot on the right to format dataset, paste Paste this in copilot
