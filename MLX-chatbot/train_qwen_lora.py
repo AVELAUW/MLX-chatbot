@@ -109,11 +109,14 @@ print(f" Training {MODEL}")
 print("=" * 50)
 sys.stdout.flush()
 
+ADAPTER_PATH.mkdir(parents=True, exist_ok=True)
+
 run([
     str(python), "-m", "mlx_lm", "lora",
     "--model",            MODEL,
     "--train",
     "--data",             str(DATA_DIR),
+    "--adapter-path",     str(ADAPTER_PATH),
     "--fine-tune-type",   "lora",
     "--learning-rate",    LEARNING_RATE,
     "--iters",            ITERS,
