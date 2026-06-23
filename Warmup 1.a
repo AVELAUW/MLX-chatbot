@@ -13,3 +13,9 @@ let menuItems = [
     " ? ",
     
 ]
+
+// PRINT YOUR MENU
+
+print("=== \(restaurantName) ===")
+print(welcomeMessage)
+print("")
