@@ -8,14 +8,24 @@ let restaurantName = "My Restaurant"
 // TODO: Change this to a welcome message for your restaurant
 let welcomeMessage = "Welcome! Check out our menu."
 
-// TODO: Add 3 or more items (each is a String in quotes, separated by commas)
+// TODO: Add ONLY 3 menu items (each is a String in quotes, separated by commas)
 let menuItems = [
     " ? ",
     
 ]
 
-// PRINT YOUR MENU
+// These are the ingredient lists for each menu item.
+// DO NOT alter ingredient list!
+let ingredients = [
+    "flour, gluten, butter",
+    "peanut, garlic, olive oil",
+    "rice, tomato, basil"
+]
 
-print("=== \(restaurantName) ===")
+//QI: Why do you think you should ONLY add 3 menu items?
+
+// PRINT START OF MENU
+
+print(" == \(restaurantName) == ")
 print(welcomeMessage)
-print("")
+print("") // QII: How does this line of code change our output?
