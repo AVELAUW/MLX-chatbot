@@ -1,0 +1,11 @@
+// Add (paste) to very end of code
+print("--- Allergen List ---")
+printAllergens()
+
+print("@State Salad safe?", !checkIngredients(ingredients[0].components(separatedBy: ", ")))
+print("Array Alfredo safe?", !checkIngredients(ingredients[1].components(separatedBy: ", ")))
+print("Conditional Combo safe?", !checkIngredients(ingredients[2].components(separatedBy: ", ")))
+
+print("Has allergen?", checkIngredients(["salt", "pepper"]))
+print("Has allergen?", checkIngredients(["sugar", "peanut"]))
+  
