@@ -1,0 +1,15 @@
+import Foundation
+
+// SET UP YOUR RESTAURANT
+
+// TODO: Change this to your restaurant's name
+let restaurantName = "My Restaurant"
+
+// TODO: Change this to a welcome message for your restaurant
+let welcomeMessage = "Welcome! Check out our menu."
+
+// TODO: Add 3 or more items (each is a String in quotes, separated by commas)
+let menuItems = [
+    " ? ",
+    
+]
