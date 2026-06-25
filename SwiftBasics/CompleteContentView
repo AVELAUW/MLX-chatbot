@@ -1,0 +1,113 @@
+// My App Name Here
+
+import SwiftUI
+
+extension Color {
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default: (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(.sRGB,
+                  red: Double(r) / 255,
+                  green: Double(g) / 255,
+                  blue: Double(b) / 255,
+                  opacity: Double(a) / 255)
+    }
+}
+
+struct ContentView: View {
+
+        @State private var userMessage = ""
+
+        private let suggestedQuestions = [
+            "What is data activism?",
+            "What are ways to combat enviormental issues?",
+        ]
+
+    var body: some View {
+       
+        VStack(spacing: 0) {
+
+            Image("Logo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 84, height: 84)
+                .shadow(radius: 8)
+                .padding(.top, 60)
+
+            VStack(spacing: 16) {
+                Spacer()
+
+                Text("Welcome to AVELA AI")
+                    .font(.largeTitle.bold())
+
+                Text("Click to learn about data activism.")
+                    .font(.title3)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+
+
+                HStack(spacing: 12) {
+                    ForEach(suggestedQuestions, id: \.self) { question in
+                        Button(action: {
+                            print(question)
+                        }) {
+                            Text(question)
+                                .font(.callout)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 18)
+                                .padding(.vertical, 14)
+                                .background(RoundedRectangle(cornerRadius: 30))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.vertical)
+                Spacer()
+            }
+            .padding()
+
+
+            Divider()
+
+            HStack(alignment: .center, spacing: 12) {
+
+                TextField("Type a message...", text: $userMessage)
+                    .textFieldStyle(.plain)
+                    .font(.system(size: 16))
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.gray.opacity(0.1))
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 1.5)
+                    )
+
+                Button("Send") {
+                    print("Sent: \(userMessage)")
+                    userMessage = ""
+                }
+                .buttonStyle(.borderedProminent)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .disabled(userMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 12)
+            .padding(.bottom, 44)        }
+
+    }
+}
+
+#Preview {
+    ContentView()
+}
