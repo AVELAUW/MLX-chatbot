@@ -1,0 +1,523 @@
+// ============================================================
+//  Swift Basics — Build the AVELA AI App Screen
+//  AVELA – Introduction to AI & ML
+// ============================================================
+//
+//  You are going to build the AVELA AI app one piece at a time.
+//  Each section adds a new part of the app's interface.
+//
+//  HOW IT WORKS:
+//  1. In Xcode, create a new SwiftUI file called ContentView.swift
+//  2. Open Section 01 on GitHub — copy ALL the code and paste it
+//  3. Do the ★ MAIN TASK (everyone does this together)
+//  4. Open the next section — it only has the NEW code to add
+//     Follow the 📋 instructions for WHERE to paste it
+//  5. Repeat for each section — your file grows as you go
+//
+//  By Section 08 your Xcode Canvas will show a working preview
+//  that looks like the real AVELA AI app — with YOUR details.
+//
+//  Section 09 teaches you how to customize the AI's personality
+//  in a separate file (ChatViewModel.swift).
+// ============================================================
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 1: The Welcome Title
+//
+//  Every SwiftUI app starts with three things:
+//    import SwiftUI  — loads Apple's UI framework
+//    struct ... View — a blueprint for one screen
+//    var body        — everything the user sees goes here
+//
+//  Text() displays words on screen.
+//  #Preview lets Xcode show your screen without running the app.
+//
+//  The Color(hex:) helper at the top lets you use hex color
+//  codes like Color(hex: "#FF5733") anywhere in your app.
+//  Find hex codes at: https://htmlcolorcodes.com
+//
+//  ★ MAIN TASK: Change the welcome message to include YOUR name.
+//    Example: "Welcome to Jordan's AI"
+//
+//  📋 PASTE: This is your starter file.
+//     Copy EVERYTHING below and paste it into ContentView.swift
+// ────────────────────────────────────────────────────────────
+
+import SwiftUI
+
+// COLOUR HELPER — use Color(hex: "#RRGGBB") anywhere below
+extension Color {
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default: (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(.sRGB,
+                  red: Double(r) / 255,
+                  green: Double(g) / 255,
+                  blue: Double(b) / 255,
+                  opacity: Double(a) / 255)
+    }
+}
+
+struct ContentView: View {
+
+    // ── Section 02: @State variable will go here ─────────
+    // ── Section 03: suggestedQuestions array will go here ─
+
+    var body: some View {
+
+        // ★ CHANGE THE TEXT BELOW TO YOUR OWN WELCOME MESSAGE:
+        Text("Welcome to AVELA AI")
+            .font(.largeTitle.bold())
+
+    }
+}
+
+#Preview {
+    ContentView()
+}
+
+// ── Customize Further ─────────────────────────────────────
+// • Try different font sizes — replace .largeTitle with:
+//       .title, .headline, .caption
+// • Add color after .bold():
+//       .foregroundColor(.blue)
+//   Or use a hex code:
+//       .foregroundColor(Color(hex: "#FF5733"))
+// ──────────────────────────────────────────────────────────
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 2: @State Variable
+//
+//  @State stores a value that can change. When it changes,
+//  SwiftUI automatically redraws the screen.
+//
+//  You won't see this do anything yet — it's preparation.
+//  In Section 07 you'll connect it to a TextField so users
+//  can type messages into your app.
+//
+//  ★ MAIN TASK: Add this line to your file.
+//
+//  📋 PASTE: Add the line below ABOVE your "var body" line,
+//     replacing the "Section 02" placeholder comment.
+// ────────────────────────────────────────────────────────────
+
+    @State private var userMessage = ""
+
+// ── Customize Further ─────────────────────────────────────
+// • Nothing to customize yet — this powers Section 07.
+//   If you're curious, try adding a second @State:
+//       @State private var userName = ""
+//   You could connect it to a TextField later.
+// ──────────────────────────────────────────────────────────
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 3: Questions Array
+//
+//  An array [ ] stores an ordered list of values.
+//  Each string you add here will become a tappable button
+//  on screen — you'll see them appear in Section 06.
+//
+//  ★ MAIN TASK: Add 2–3 more questions to the array.
+//    Remember: put a comma after each string.
+//
+//  📋 PASTE: Add the code below ABOVE your "var body" line,
+//     BELOW the @State line from Section 02.
+//     Replace the "Section 03" placeholder comment.
+// ────────────────────────────────────────────────────────────
+
+    // SUGGESTED QUESTIONS
+    // ★ Add more questions — each becomes a tappable button.
+    //   EXAMPLES: "Who uses data activism?", "Why does data matter?"
+    private let suggestedQuestions = [
+        "What is data activism?"
+        // 🛠️ ADD YOUR QUESTIONS BELOW (comma after each one)
+
+    ]
+
+// ── Customize Further ─────────────────────────────────────
+// • Add as many questions as you want — the app will
+//   display all of them automatically.
+// • Keep questions short (under 8 words) so they fit
+//   neatly as buttons.
+// ──────────────────────────────────────────────────────────
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 4: App Icon
+//
+//  Image(systemName:) loads a free icon built into every Mac.
+//  Apple calls these "SF Symbols" — there are thousands.
+//  Browse them all: https://developer.apple.com/sf-symbols/
+//
+//  VStack stacks views vertically — top to bottom.
+//  This section restructures your body so the icon sits
+//  above your welcome title with proper spacing.
+//
+//  ★ MAIN TASK: Pick an SF Symbol icon for YOUR app.
+//    Replace "brain.head.profile" with your choice.
+//
+//  📋 PASTE: Select everything inside your var body { ... }
+//     and REPLACE it with the code below.
+//     (Re-enter your custom welcome text from Section 01)
+// ────────────────────────────────────────────────────────────
+
+        VStack(spacing: 0) {
+
+            // ★ PICK YOUR APP ICON — replace "brain.head.profile":
+            Image(systemName: "brain.head.profile")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 84, height: 84)
+                .foregroundColor(.blue)
+                .shadow(radius: 8)
+                .padding(.top, 24)
+
+            VStack(spacing: 16) {
+                Spacer()
+
+                // ★ YOUR WELCOME TITLE FROM SECTION 01:
+                Text("Welcome to AVELA AI")
+                    .font(.largeTitle.bold())
+
+                // ── Section 05: Subtitle will go here ────────
+                // ── Section 06: Question buttons will go here ─
+                // ── Section 07: Message input will go below ──
+
+                Spacer()
+            }
+            .padding()
+        }
+
+// ── Customize Further ─────────────────────────────────────
+// • Try these SF Symbol names:
+//       "sparkles"  "graduationcap.fill"  "globe"
+//       "star.fill"  "bolt.fill"  "heart.fill"
+//       "music.note"  "gamecontroller.fill"
+// • Change .foregroundColor(.blue) to your color
+// • Change .frame(width: 84, height: 84) — try 60 or 120
+// • Change .shadow(radius: 8) — try 4 (subtle) or 16 (dramatic)
+// ──────────────────────────────────────────────────────────
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 5: Subtitle
+//
+//  A subtitle tells users what your app does.
+//  .foregroundColor(.secondary) makes text gray — it adapts
+//  automatically to light and dark mode.
+//  .multilineTextAlignment(.center) centers long text.
+//
+//  ★ MAIN TASK: Change the subtitle to describe YOUR app's
+//    topic. What will your AI teach people about?
+//
+//  📋 PASTE: Add the code below directly AFTER your
+//     welcome title Text (the one you customized in Section 01).
+//     Replace the "Section 05" placeholder comment.
+// ────────────────────────────────────────────────────────────
+
+                // ★ CHANGE THIS SUBTITLE TO DESCRIBE YOUR APP:
+                Text("Click to learn about data activism.")
+                    .font(.title3)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+
+// ── Customize Further ─────────────────────────────────────
+// • Try a different color:
+//       .foregroundColor(.blue)
+//       .foregroundColor(Color(hex: "#8B5CF6"))
+// • Try a different font:
+//       .font(.headline)  .font(.body)  .font(.caption)
+// • Add a third line below:
+//       Text("Powered by on-device AI")
+//           .font(.footnote)
+//           .foregroundColor(.gray)
+// ──────────────────────────────────────────────────────────
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 6: Question Buttons
+//
+//  This is the second part of Section 03's questions array.
+//  The array you created in Section 03 stores the questions.
+//  This code DISPLAYS them as tappable buttons on screen.
+//
+//  ForEach loops through the array and creates one Button
+//  for every item. Add a string to the array → a new button
+//  appears here automatically.
+//
+//  HStack places the buttons side by side.
+//
+//  ★ MAIN TASK: Paste this code and confirm your questions
+//    from Section 03 appear as buttons in the preview.
+//    Go back to Section 03 and add more if you want!
+//
+//  📋 PASTE: Add the code below directly AFTER your subtitle
+//     Text (from Section 05). Replace the "Section 06"
+//     placeholder comment.
+// ────────────────────────────────────────────────────────────
+
+                HStack(spacing: 12) {
+                    ForEach(suggestedQuestions, id: \.self) { question in
+                        Button(action: {
+                            print(question)
+                        }) {
+                            Text(question)
+                                .font(.callout)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 18)
+                                .padding(.vertical, 14)
+                                .background(RoundedRectangle(cornerRadius: 30))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.vertical)
+
+// ── Customize Further ─────────────────────────────────────
+// • Change button color:
+//       .background(RoundedRectangle(cornerRadius: 30).fill(Color.blue))
+//   Try: .purple, .green, .red, .orange
+// • Stack buttons vertically — change HStack to VStack
+// • Change .cornerRadius(30) to .cornerRadius(8) for boxier shape
+// • Add an icon — replace the Text line with:
+//       Label(question, systemImage: "questionmark.circle")
+// ──────────────────────────────────────────────────────────
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 7: Message Input Bar
+//
+//  This is the second part of Section 02's @State variable.
+//  The @State you added in Section 02 stores typed text.
+//  This code USES it — the TextField reads and writes to it
+//  through a $binding (a live two-way connection).
+//
+//  TextField shows a text box where users can type.
+//  .disabled() grays out the Send button when empty.
+//  Divider() draws a thin line separating sections.
+//
+//  ★ MAIN TASK: Change the placeholder text to YOUR prompt.
+//    Example: "Ask me anything...", "Search topics..."
+//
+//  📋 PASTE: Add the code below AFTER the closing } .padding()
+//     of the inner VStack (the one holding your title, subtitle,
+//     and buttons) but BEFORE the closing } of the outer
+//     VStack(spacing: 0). Replace the "Section 07" placeholder.
+// ────────────────────────────────────────────────────────────
+
+                Divider()
+
+                HStack(alignment: .top, spacing: 16) {
+
+                    // ★ CHANGE THE PLACEHOLDER TEXT BELOW:
+                    TextField("Type a message...", text: $userMessage)
+                        .textFieldStyle(.plain)
+                        .font(.system(size: 16))
+                        .padding(.horizontal, 24)
+                        .padding(.vertical, 24)
+                        .frame(minHeight: 120, alignment: .topLeading)
+                        .background(
+                            RoundedRectangle(cornerRadius: 28)
+                                .fill(Color.gray.opacity(0.1))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 28)
+                                .stroke(Color.gray.opacity(0.3), lineWidth: 1.5)
+                        )
+
+                    Button("Send") {
+                        print("Sent: \(userMessage)")
+                        userMessage = ""
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .clipShape(RoundedRectangle(cornerRadius: 30))
+                    .padding(.top, 20)
+                    .disabled(userMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+                .padding(.horizontal, 24)
+                .padding(.vertical, 24)
+
+// ── Customize Further ─────────────────────────────────────
+// • Change "Send" to "Go", "Ask", or "Submit"
+// • Change border thickness:
+//       .stroke(..., lineWidth: 4) for thick
+//       .stroke(..., lineWidth: 0.5) for thin
+// • Change background shade:
+//       .fill(Color.gray.opacity(0.05))  — barely visible
+//       .fill(Color.blue.opacity(0.05))  — hint of blue
+// • Add a shadow to the input box after .overlay():
+//       .shadow(color: .black.opacity(0.08), radius: 6)
+// ──────────────────────────────────────────────────────────
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 8: Navigation Bar & Preview — Finishing Touches
+//
+//  NavigationStack wraps your screen and adds the title bar
+//  you see at the top of almost every app.
+//  .navigationTitle() sets the text that appears there.
+//  #Preview should already be at the bottom of your file
+//  from Section 01 — just make sure it's still there.
+//
+//  After this section your preview should look like the
+//  real AVELA AI app — with all YOUR customizations!
+//
+//  ★ MAIN TASK: Wrap your body content in a NavigationStack,
+//    add .navigationTitle, and set YOUR app's name.
+//
+//  📋 PASTE: This section has TWO steps.
+// ────────────────────────────────────────────────────────────
+
+
+// ─────────────────────────────────────────────────────────────
+// STEP 1: At the very START of your var body (first line inside
+//         the opening brace), add this opening line:
+// ─────────────────────────────────────────────────────────────
+
+        NavigationStack {
+
+
+// ─────────────────────────────────────────────────────────────
+// STEP 2: At the very END of your var body, AFTER the closing }
+//         of VStack(spacing: 0), add these lines BEFORE the
+//         final closing } of body:
+// ─────────────────────────────────────────────────────────────
+
+            // ★ CHANGE THE TEXT BELOW TO YOUR APP'S NAME:
+            .navigationTitle("AVELA-CourseSLM")
+
+        } // ← closes NavigationStack
+
+
+// ─────────────────────────────────────────────────────────────
+// Make sure #Preview is still at the very bottom of your file
+// (it was included in Section 01). Your file should end with:
+//
+//     #Preview {
+//         ContentView()
+//     }
+//
+// ─────────────────────────────────────────────────────────────
+
+
+// ============================================================
+//  Your preview should now look like the real AVELA AI app!
+//  Make sure you've customized every piece:
+//    □ Welcome title      (Section 01)
+//    □ Questions          (Section 03)
+//    □ App icon           (Section 04)
+//    □ Subtitle           (Section 05)
+//    □ Placeholder text   (Section 07)
+//    □ App name / title   (Section 08)
+//  Show your instructor when you're done!
+// ============================================================
+
+// ── Customize Further ─────────────────────────────────────
+// • Add a toolbar button in the top-right corner.
+//   Place this right after .navigationTitle("..."):
+//
+//       .toolbar {
+//           ToolbarItem(placement: .automatic) {
+//               Button {
+//                   print("Info tapped")
+//               } label: {
+//                   Image(systemName: "info.circle")
+//               }
+//           }
+//       }
+//
+// • Try other toolbar icons:
+//       "gearshape"  "person.fill"  "star.fill"
+//       "arrow.counterclockwise"
+// ──────────────────────────────────────────────────────────
+
+
+// ────────────────────────────────────────────────────────────
+//  SECTION 9: AI Personality
+//
+//  The AI reads a "system prompt" before every conversation.
+//  This prompt tells it HOW to behave — its personality, tone,
+//  and rules. Change the prompt → the AI acts differently.
+//
+//  A system prompt is just plain English — no code needed.
+//  Think of it like giving instructions to a new tutor:
+//    "You are friendly. Explain things simply. Stay on topic."
+//
+//  The triple quotes """ let you write text across multiple lines.
+//  The backslash \ at the end of a line means "continue on
+//  the next line" — it keeps one sentence from breaking apart.
+//
+//  This is a DIFFERENT FILE from ContentView.swift.
+//  Open ChatViewModel.swift and find SECTION 1 — AI PERSONALITY.
+//
+//  ★ MAIN TASK: Rewrite the system prompt in YOUR words.
+//    Describe how you want YOUR AI to talk, teach, and behave.
+//    Then ask the AI the same question before and after —
+//    see how the response changes!
+// ────────────────────────────────────────────────────────────
+
+// ─────────────────────────────────────────────────────────────
+// In ChatViewModel.swift, find this block:
+// ─────────────────────────────────────────────────────────────
+
+/*
+    private let SYSTEM_PROMPT = """
+        You are a helpful learning assistant who teaches concepts step by step \
+        using clear, scaffolded language.
+        You never provide exact code solutions.
+        If a student asks something unrelated or off-topic, politely redirect \
+        them to the active course material.
+        """
+*/
+
+// ★ REWRITE THE PROMPT ABOVE IN YOUR OWN WORDS.
+//   Keep it inside the triple quotes """ ... """
+//   Here are some ideas to include:
+//
+//   • What subject does your AI teach?
+//   • Should it be formal or casual? Funny or serious?
+//   • Should it give short answers or long explanations?
+//   • What should it do if someone asks something off-topic?
+//
+//   EXAMPLE — a music teacher AI:
+//
+//       private let SYSTEM_PROMPT = """
+//           You are a friendly music teacher who explains music theory \
+//           using everyday language and pop song examples.
+//           Keep answers under 3 sentences unless the student asks for more.
+//           If someone asks about something other than music, say \
+//           "Great question! But let's get back to the music."
+//           """
+//
+//   EXAMPLE — a strict science tutor:
+//
+//       private let SYSTEM_PROMPT = """
+//           You are a science tutor. Always answer with a fact, then \
+//           ask a follow-up question to make the student think deeper.
+//           Never give the full answer — guide them to figure it out.
+//           Only discuss biology, chemistry, and physics topics.
+//           """
+
+// ── Customize Further ─────────────────────────────────────
+// • Try making the AI respond ONLY in questions:
+//       "You only respond with questions. Never give direct answers."
+// • Give it a character:
+//       "You are a pirate who teaches history. Use pirate slang."
+// • Limit response length:
+//       "Keep every response under 2 sentences."
+// • Make it bilingual:
+//       "Respond in both English and Spanish."
+// • After changing the prompt, ask the SAME question you
+//   asked before — compare the two answers!
+// ──────────────────────────────────────────────────────────
