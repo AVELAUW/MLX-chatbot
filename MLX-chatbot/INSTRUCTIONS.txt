@@ -7,7 +7,7 @@ AVELA MLX Chatbot — Instructions
     python3 ~/Downloads/MLX-chatbot-main/setup_environment.py
     
 ## Incase Environments have been set up this is what they run
-    mkdir -p ~/Documents/GitHub    
+    python3 transfer_project.py
     
 ## Paste this in terminal
    python3 ~/Documents/GitHub/MLX-chatbot/MLX-chatbot/train_qwen_lora.py
