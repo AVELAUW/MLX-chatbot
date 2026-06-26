@@ -52,11 +52,7 @@ class ChatViewModel: ObservableObject {
     // ★ Edit this to shape how the assistant responds.
 
     private let SYSTEM_PROMPT = """
-        You are a helpful learning assistant who teaches concepts step by step \
-        using clear, scaffolded language.
-        You never provide exact code solutions.
-        If a student asks something unrelated or off-topic, politely redirect \
-        them to the active course material.
+        You are a helpful learning assistant who teaches concepts step by step using clear, scaffolded language.You never provide exact code solutions. If a student asks something unrelated or off-topic, politely redirect them to the active course material.
         """
 
     // MARK: - Local model path
