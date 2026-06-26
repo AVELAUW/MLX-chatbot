@@ -95,8 +95,8 @@ elif src == dest:
     print(f"✓ Repo already in the right place")
 else:
     import shutil
-    shutil.copytree(str(src), str(dest))
-    print(f"✓ Repo copied to {dest}")
+    shutil.move(str(src), str(dest))
+    print(f"✓ Repo moved to {dest}")
 
 # ── Done ──────────────────────────────────────────────────────────────────────
 print("\n" + "=" * 50)

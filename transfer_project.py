@@ -21,9 +21,9 @@ elif dest.exists():
     print(f"✓ Destination already exists: {dest}")
     print("  Nothing to do — folder is already there.")
 else:
-    print(f"\nCopying project to {dest} ...")
-    shutil.copytree(str(src), str(dest))
-    print(f"✓ Done! Project copied to {dest}")
+    print(f"\nMoving project to {dest} ...")
+    shutil.move(str(src), str(dest))
+    print(f"✓ Done! Project moved to {dest}")
 
 print("\n" + "=" * 50)
 print("✅ Transfer complete!")
