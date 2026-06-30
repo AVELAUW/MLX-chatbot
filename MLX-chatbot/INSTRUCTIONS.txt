@@ -1,0 +1,34 @@
+AVELA MLX Chatbot — Instructions
+==================================
+
+
+
+## Paste this in terminal to place repo in corect folder
+    python3 ~/Downloads/MLX-chatbot-main/setup_environment.py
+    
+## Incase Environments have been set up this is what they run
+    python3 ~/Downloads/MLX-chatbot-main/transfer_project.py
+    
+## Paste this in terminal
+   python3 ~/Documents/GitHub/MLX-chatbot/MLX-chatbot/train_qwen_lora.py
+
+## Using copilot on the right to format dataset, paste Paste this in copilot
+
+I have a JSON dataset on the left. Convert it into LoRA fine-tuning data for a Qwen2.5 model.
+Output requirements:
+    Output in JSONL format (one JSON object per line).
+Each line must follow this exact format:
+{"text":"<|im_start|>system\n[system prompt]\n<|im_end|>\n<|im_start|>user\n[question]\n<|im_end|>\n<|im_start|>assistant\n[answer]\n<|im_end|>"}
+    Return raw JSONL only.
+    Do not include explanations, markdown, code fences, numbering, headings, or any extra text.
+Dataset generation requirements:
+    Cover every field in the dataset at least once.
+    Generate at least 6 varied question-answer pairs per entry.
+    Include questions about individual fields as well as questions that combine information from multiple fields.
+    Vary the wording and style of the questions so they do not sound repetitive.
+    Answers should be 2–4 sentences, educational, conversational, and based only on the information in the dataset.
+Important:
+    Replace the current training examples with newly generated examples.
+    Output only the generated JSONL lines. Nothing else.
+
+

@@ -65,6 +65,29 @@ MLX-chatbot.xcodeproj/project.xcworkspace/xcuserdata/AVLA Student.xcuserdatad/Us
 .DS_Store
 MLX-chatbot.xcodeproj/project.xcworkspace/xcuserdata/AVLA Student.xcuserdatad/UserInterfaceState.xcuserstate
 MLX-chatbot/.DS_Store
-MLX-chatbot.xcodeproj/project.pbxproj
+
 .DS_Store
 MLX-chatbot.xcodeproj/project.xcworkspace/xcuserdata/AVLA Student.xcuserdatad/UserInterfaceState.xcuserstate
+
+# Python venv — never commit
+.mlx_venv/
+MLX-chatbot/.mlx_venv/
+
+# LoRA adapter weights (intermediate training output)
+adapters/
+MLX-chatbot/adapters/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Auto-generated splits (recreated from train.jsonl on each run)
+MLX-chatbot/DATA_DIR/valid.jsonl
+MLX-chatbot/DATA_DIR/test.jsonl
+
+# Xcode package resolution cache
+MLX-chatbot.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+MLX-chatbot.xcodeproj/xcshareddata/xcschemes/MLX-chatbot 1.xcscheme
+MLX-chatbot.xcodeproj/xcshareddata/xcschemes/MLX-chatbot.xcscheme
+.DS_Store
