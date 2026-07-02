@@ -31,4 +31,6 @@ Important:
     Replace the current training examples with newly generated examples.
     Output only the generated JSONL lines. Nothing else.
 
+## After training find the AI generated System prompt, select all occurances (highlight one, press: ⌘ f2, paste your prompt), then paste in YOUR AI's system prompt.
 
+## Double check: all files names are consitent, Chatview's system prompt matches trained file, your project is saved and properly titled.
