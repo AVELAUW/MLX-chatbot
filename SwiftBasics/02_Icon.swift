@@ -53,16 +53,12 @@ struct ContentView: View {
 
     var body: some View {
 
-        // ── Section 5: NavigationStack will wrap this ────
-        // ── Section 2: VStack + Image will go here ───────
-        // ── Section 3: Subtitle will go here ─────────────
+        // ── Section 4: NavigationStack will wrap this ────
+        // ── Section 1: VStack + Image will go here ───────
+        // ── Section 2: Title & Subtitle will go here ─────────────
 
-        // ★ CHANGE THE TEXT BELOW TO YOUR OWN WELCOME MESSAGE:
-        Text("Welcome to AVELA AI")
-            .font(.largeTitle.bold())
-
-        // ── Section 4: Question buttons will go here ─────
-        // ── Section 6: Message input bar will go here ────
+        // ── Section 3: Question buttons will go here ─────
+        // ── Section 5: Message input bar will go here ────
 
     }
 }
