@@ -16,6 +16,8 @@
 //  .shadow() adds a drop shadow behind the icon.
 // ────────────────────────────────────────────────────────────
 
+NavigationStack {
+                
         VStack {
 
             // ★ PICK YOUR APP ICON — replace "brain.head.profile":
