@@ -1,6 +1,12 @@
 // ────────────────────────────────────────────────────────────
 //  SECTION 2: App Icon
 //
+// ★ MAIN TASK: Pick an SF Symbol icon for YOUR app.
+//    Replace "brain.head.profile" with your choice.
+//
+//  📋 PASTE: Select //section 2 inside your var body { ... }
+//     and REPLACE it with the code below.
+//
 //  Image(systemName:) loads a free icon built into every Mac.
 //  Apple calls these "SF Symbols" — there are thousands.
 //  Browse them all: https://developer.apple.com/sf-symbols/
@@ -8,12 +14,6 @@
 //  VStack stacks views vertically — top to bottom.
 //  .resizable() lets you change the icon's size with .frame().
 //  .shadow() adds a drop shadow behind the icon.
-//
-//  ★ MAIN TASK: Pick an SF Symbol icon for YOUR app.
-//    Replace "brain.head.profile" with your choice.
-//
-//  📋 PASTE: Select //section 2 inside your var body { ... }
-//     and REPLACE it with the code below.
 // ────────────────────────────────────────────────────────────
 
         VStack {
