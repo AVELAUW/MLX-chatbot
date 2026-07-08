@@ -1,5 +1,5 @@
 // ────────────────────────────────────────────────────────────
-//  SECTION 1: The Welcome Title
+//  SECTION 1: Imports & Functions
 //
 //  ★ MAIN TASK: Change the welcome message to include YOUR name.
 //    Example: "Welcome to Jordan's AI"
@@ -53,12 +53,12 @@ struct ContentView: View {
 
     var body: some View {
 
-        // ── Section 4: NavigationStack will wrap this ────
-        // ── Section 1: VStack + Image will go here ───────
-        // ── Section 2: Title & Subtitle will go here ─────────────
+        // ── Section 5: NavigationStack will wrap this ────
+        // ── Section 2: VStack + Image will go here ───────
+        // ── Section 3: Title & Subtitle will go here ─────────────
 
-        // ── Section 3: Question buttons will go here ─────
-        // ── Section 5: Message input bar will go here ────
+        // ── Section 4: Question buttons will go here ─────
+        // ── Section 6: Message input bar will go here ────
 
     }
 }
