@@ -29,8 +29,8 @@ extension Color {
 
 struct ContentView: View {
 
-    // ── Section 6: @State variable will go here ──────────
-
+    @State private var userMessage = ""
+    
     // ── Section 4: suggestedQuestions array will go here ─
 
     var body: some View {
