@@ -1,30 +1,12 @@
 // ────────────────────────────────────────────────────────────
 //  SECTION 1: Imports & Functions
 //
-//  ★ MAIN TASK: Change the welcome message to include YOUR name.
-//    Example: "Welcome to Jordan's AI"
-//
 //  📋 PASTE: This is your starter file.
 //     Copy EVERYTHING below and paste it into ContentView.swift
-//
-//  Every SwiftUI app starts with three things:
-//    import SwiftUI  — loads Apple's UI framework
-//    struct ... View — a blueprint for one screen
-//    var body        — everything the user sees goes here
-//
-//  Text() displays words on screen.
-//  #Preview lets Xcode show your screen without running the app.
-//
-//  The Color(hex:) helper at the top lets you use hex color
-//  codes like Color(hex: "#FF5733") anywhere in your app.
-//  Find hex codes at: https://htmlcolorcodes.com
 // ────────────────────────────────────────────────────────────
 
 import SwiftUI
 
-// ─────────────────────────────────────────────────────────────
-// COLOUR HELPER — use Color(hex: "#RRGGBB") anywhere below
-// ─────────────────────────────────────────────────────────────
 extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
@@ -53,15 +35,13 @@ struct ContentView: View {
 
     var body: some View {
 
-        // ── Section 5: NavigationStack will wrap this ────
-        // ── Section 2: VStack + Image will go here ───────
-        // ── Section 3: Title & Subtitle will go here ─────────────
+        // ── Section 6: NavigationStack will go here ────
+        // ── Section 2: VStack + Image will go here ─────
+        // ── Section 3: Title & Subtitle will go here ───
 
-        // ── Section 4: Question buttons will go here ─────
-        // ── Section 6: Message input bar will go here ────
-
-    }
-}
+        // ── Section 5: Question buttons will go here ────
+        // ── Section 6: Message input bar will go here ───
+        
 
 #Preview {
     ContentView()
