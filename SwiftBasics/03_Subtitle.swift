@@ -10,21 +10,13 @@
 //  ★ MAIN TASK: Change the subtitle to describe YOUR app's
 //    topic. What will your AI teach people about?
 //
-//  📋 PASTE: Select everything inside your var body { ... }
+//  📋 PASTE: Select //  SECTION 3: inside your var body { ... }
 //     and REPLACE it with the code below.
 // ────────────────────────────────────────────────────────────
 
-        VStack(spacing: 0) {
-
-            Image(systemName: "brain.head.profile")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 84, height: 84)
-                .padding(.top, 24)
-
             VStack(spacing: 16) {
                 Spacer()
-
+                // ★ CHANGE THIS TITLE TO FIT YOUR APP:
                 Text("Welcome to AVELA AI")
                     .font(.largeTitle.bold())
 
