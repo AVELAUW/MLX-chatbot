@@ -1,6 +1,12 @@
 // ────────────────────────────────────────────────────────────
 //  SECTION 1: The Welcome Title
 //
+//  ★ MAIN TASK: Change the welcome message to include YOUR name.
+//    Example: "Welcome to Jordan's AI"
+//
+//  📋 PASTE: This is your starter file.
+//     Copy EVERYTHING below and paste it into ContentView.swift
+//
 //  Every SwiftUI app starts with three things:
 //    import SwiftUI  — loads Apple's UI framework
 //    struct ... View — a blueprint for one screen
@@ -12,12 +18,6 @@
 //  The Color(hex:) helper at the top lets you use hex color
 //  codes like Color(hex: "#FF5733") anywhere in your app.
 //  Find hex codes at: https://htmlcolorcodes.com
-//
-//  ★ MAIN TASK: Change the welcome message to include YOUR name.
-//    Example: "Welcome to Jordan's AI"
-//
-//  📋 PASTE: This is your starter file.
-//     Copy EVERYTHING below and paste it into ContentView.swift
 // ────────────────────────────────────────────────────────────
 
 import SwiftUI
