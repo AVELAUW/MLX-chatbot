@@ -16,11 +16,11 @@
 
             VStack(spacing: 16) {
                 Spacer()
-                // ★ CHANGE THIS TITLE TO FIT YOUR APP:
+            // ★ CHANGE THE TEXT BELOW TO YOUR OWN WELCOME MESSAGE:
                 Text("Welcome to AVELA AI")
                     .font(.largeTitle.bold())
 
-                // ★ CHANGE THIS SUBTITLE TO DESCRIBE YOUR APP:
+            // ★ CHANGE THIS SUBTITLE TO DESCRIBE YOUR APP:
                 Text("Click to learn about data activism.")
                     .font(.title3)
                     .foregroundColor(.secondary)
