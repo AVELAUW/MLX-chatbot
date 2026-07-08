@@ -12,7 +12,7 @@
 //  ★ MAIN TASK: Pick an SF Symbol icon for YOUR app.
 //    Replace "brain.head.profile" with your choice.
 //
-//  📋 PASTE: Select everything inside your var body { ... }
+//  📋 PASTE: Select //section 2 inside your var body { ... }
 //     and REPLACE it with the code below.
 // ────────────────────────────────────────────────────────────
 
@@ -26,11 +26,6 @@
                 .foregroundColor(.blue)
                 .shadow(radius: 8)
                 .padding(.top, 24)
-
-            Text("Welcome to AVELA AI")
-                .font(.largeTitle.bold())
-
-        }
 
 // ── Customize Further ─────────────────────────────────────
 //
