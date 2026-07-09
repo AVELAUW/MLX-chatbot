@@ -57,7 +57,7 @@ struct ContentView: View {
        
         VStack(spacing: 0) {
 
-            Image("Logo")
+            Image(systemName: "globe")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 84, height: 84)
