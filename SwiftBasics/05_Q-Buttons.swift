@@ -1,27 +1,17 @@
-// ────────────────────────────────────────────────────────────
 //  SECTION 5: Hstack & Buttons
 //
-//  📋 PASTE: Select //Section 5: and REPLACE it with the code below.
-// ─────────────────────────────────────────────────────────────
+// COPYPASTE: Select //Section 5: and REPLACE it with the code below.
 
-                // Question button chips
-                HStack(spacing: 12) {
-                    ForEach(suggestedQuestions, id: \.self) { question in
-                        Button(action: {
-                            print(question)
-                        }) {
-                            Text(question)
-                                .font(.callout)
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 18)
-                                .padding(.vertical, 14)
-                                .background(RoundedRectangle(cornerRadius: 30))
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-                .padding(.vertical)
-
-                Spacer()
-            }
-            .padding()
+               TextField("Type a message...", text: $userMessage)
+                    .textFieldStyle(.plain)
+                    .font(.system(size: 16))
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.gray.opacity(0.1))
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 1.5)
+                    )
