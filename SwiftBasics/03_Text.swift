@@ -1,4 +1,4 @@
-//  SECTION 3: Subtitle & Spacing
+//  SECTION 4: Text, Title & Subtitle
 //  ★ What will your AI teach people about?
 
 //  COPY & PASTE: Select //  SECTION 4: inside your var body { ... }
