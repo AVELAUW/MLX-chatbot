@@ -1,0 +1,120 @@
+// AVELA AI APP
+// ============================================================
+//  Swift Basics — Build the AVELA AI App Screen
+//  AVELA – Introduction to AI & ML
+// ============================================================
+//
+//  You are going to build the AVELA AI app one piece at a time.
+//  Each section adds a new part of the app's interface.
+//
+//  HOW IT WORKS:
+//  1. In Xcode, create a new SwiftUI file called ContentView.swift
+//  2. Open Section 01 on GitHub — copy ALL the code and paste it
+//  3. Do the ★ MAIN TASK (everyone does this together)
+//  4. Open Section 02 — it only has the NEW code to add
+//     Follow the instructions for WHERE to paste it
+//  5. Repeat for each section — your file grows as you go
+//
+//  By Section 06 your Xcode Canvas will show a working preview
+//  that looks like the real AVELA AI app — with YOUR details.
+//
+//  Section 07 teaches you how to customize the AI's personality
+//  in a separate file (ChatViewModel.swift).
+// ============================================================
+
+import SwiftUI
+
+extension Color {
+    init(hex: String) {
+        let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
+        var int: UInt64 = 0
+        Scanner(string: hex).scanHexInt64(&int)
+        let a, r, g, b: UInt64
+        switch hex.count {
+        case 3: (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
+        case 6: (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
+        case 8: (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
+        default: (a, r, g, b) = (255, 0, 0, 0)
+        }
+        self.init(.sRGB,
+                  red: Double(r) / 255,
+                  green: Double(g) / 255,
+                  blue: Double(b) / 255,
+                  opacity: Double(a) / 255)
+    }
+}
+
+struct ContentView: View {
+
+        @State private var userMessage = ""
+
+        //Section 2: Suggested Questions Array
+
+    var body: some View {
+       
+        VStack(spacing: 0) {
+
+            //Section 3: App Icon
+            
+            VStack(spacing: 16) {
+                Spacer()
+
+                //Section 4: Text - Title & Subtitle
+
+                HStack(spacing: 12) {
+                    ForEach(suggestedQuestions, id: \.self) { question in
+                        Button(action: {
+                            print(question)
+                        }) {
+                            Text(question)
+                                .font(.callout)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 18)
+                                .padding(.vertical, 14)
+                                .background(RoundedRectangle(cornerRadius: 30))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.vertical)
+                Spacer()
+            }
+            .padding()
+
+
+            Divider()
+
+            HStack(alignment: .center, spacing: 12) {
+
+                TextField("Type a message...", text: $userMessage)
+                    .textFieldStyle(.plain)
+                    .font(.system(size: 16))
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.gray.opacity(0.1))
+                    )
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.gray.opacity(0.3), lineWidth: 1.5)
+                    )
+
+                Button("Send") {
+                    print("Sent: \(userMessage)")
+                    userMessage = ""
+                }
+                .buttonStyle(.borderedProminent)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .disabled(userMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 12)
+            .padding(.bottom, 44)        }
+
+    }
+}
+
+#Preview {
+    ContentView()
+}
