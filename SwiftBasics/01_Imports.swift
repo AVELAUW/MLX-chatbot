@@ -1,9 +1,33 @@
 // ────────────────────────────────────────────────────────────
 //  SECTION 1: Imports & Functions
 //
-//  📋 PASTE: This is your starter file.
+//  COPY & PASTE: This is your starter file.
 //     Copy EVERYTHING below and paste it into ContentView.swift
 // ────────────────────────────────────────────────────────────
+
+// AVELA AI APP
+// ============================================================
+//  Swift Basics — Build the AVELA AI App Screen
+//  AVELA – Introduction to AI & ML
+// ============================================================
+//
+//  You are going to build the AVELA AI app one piece at a time.
+//  Each section adds a new part of the app's interface.
+//
+//  HOW IT WORKS:
+//  1. In Xcode, create a new SwiftUI file called ContentView.swift
+//  2. Open Section 01 on GitHub — copy ALL the code and paste it
+//  3. Do the ★ MAIN TASK (everyone does this together)
+//  4. Open Section 02 — it only has the NEW code to add
+//     Follow the instructions for WHERE to paste it
+//  5. Repeat for each section — your file grows as you go
+//
+//  By Section 06 your Xcode Canvas will show a working preview
+//  that looks like the real AVELA AI app — with YOUR details.
+//
+//  Section 07 teaches you how to customize the AI's personality
+//  in a separate file (ChatViewModel.swift).
+// ============================================================
 
 import SwiftUI
 
@@ -29,41 +53,72 @@ extension Color {
 
 struct ContentView: View {
 
-    @State private var userMessage = ""
-    
-    // ── Section 4: suggestedQuestions array will go here ─
+        @State private var userMessage = ""
+
+        //Section 2: Suggested Questions Array
 
     var body: some View {
+       
+        VStack(spacing: 0) {
 
-        // ── Section 6: NavigationStack will go here ────
-        // ── Section 2: VStack + Image will go here ─────
-        // ── Section 3: Title & Subtitle will go here ───
+            //Section 3: App Icon
+            
+            VStack(spacing: 16) {
+                Spacer()
 
-        // ── Section 5: Question buttons will go here ────
-        // ── Section 6: Message input bar will go here ───
-        
+                // ★ CHANGE THE TEXT BELOW TO YOUR OWN WELCOME MESSAGE:
+                    Text( " ? " )
+                        .font(.largeTitle.bold())
+
+                // ★ CHANGE THIS SUBTITLE TO DESCRIBE YOUR APP:
+                    Text(" ? ")
+                        .font(.title3)
+                        .foregroundColor(.secondary)
+                        .multilineTextAlignment(.center)
+                
+                HStack(spacing: 12) {
+                    ForEach(suggestedQuestions, id: \.self) { question in
+                        Button(action: {
+                            print(question)
+                        }) {
+                            Text(question)
+                                .font(.callout)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 18)
+                                .padding(.vertical, 14)
+                                .background(RoundedRectangle(cornerRadius: 30))
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .padding(.vertical)
+                Spacer()
+            }
+            .padding()
+
+
+            Divider()
+
+            HStack(alignment: .center, spacing: 12) {
+
+                //Section 5: message box (text)
+
+                Button("Send") {
+                    print("Sent: \(userMessage)")
+                    userMessage = ""
+                }
+                .buttonStyle(.borderedProminent)
+                .clipShape(RoundedRectangle(cornerRadius: 20))
+                .disabled(userMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 12)
+            .padding(.bottom, 44)        }
+
+    }
+}
 
 #Preview {
     ContentView()
 }
 
-// ── Customize Further ─────────────────────────────────────
-//
-// • Try different font sizes — replace .largeTitle with:
-//       .title       — slightly smaller
-//       .headline    — even smaller, still bold
-//       .caption     — tiny text
-//
-// • Add color to your text — put this on the line after .bold():
-//       .foregroundColor(.blue)
-//   Other colors: .red, .purple, .green, .orange, .pink
-//
-// • Use an exact hex color:
-//       .foregroundColor(Color(hex: "#FF5733"))
-//
-// • Add a second Text below the first one:
-//       Text("Made by [Your Name]")
-//           .font(.caption)
-//           .foregroundColor(.gray)
-//
-// ──────────────────────────────────────────────────────────
