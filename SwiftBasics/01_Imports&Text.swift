@@ -1,7 +1,8 @@
 // Your AI App!!
 
 //  COPY & PASTE: This is your starter file.
-//     Copy EVERYTHING below and paste it into ContentView.swift
+//    Copy EVERYTHING below and paste it into ContentView.swift
+// *    replace the " ? " with your own text!
 
 import SwiftUI
 
