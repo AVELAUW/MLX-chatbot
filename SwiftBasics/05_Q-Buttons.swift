@@ -1,6 +1,6 @@
-//  SECTION 5: Hstack & Buttons
+//  SECTION 4: Hstack & Buttons
 //
-// COPYPASTE: Select //Section 5: and REPLACE it with the code below.
+// COPYPASTE: Select //Section 4: and REPLACE it with the code below.
 
                TextField("Type a message...", text: $userMessage)
                     .textFieldStyle(.plain)
