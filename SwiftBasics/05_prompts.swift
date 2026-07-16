@@ -1,4 +1,4 @@
-//  SECTION 4: Hstack & Buttons
+//  SECTION 4: Prompt/Message Box
 //
 // COPYPASTE: Select //Section 4: and REPLACE it with the code below.
 
