@@ -3,14 +3,6 @@
 //  MLX-chatbot
 //
 //  Created by AVELA Student on 2/23/26.
-//
-//  ─────────────────────────────────────────────────────────────
-//  THINGS YOU CAN CUSTOMISE IN THIS FILE:
-//    1. The app's colour scheme         → search "suggestedQuestions"
-//    2. The starter questions on screen → search "suggestedQuestions"
-//    3. Welcome message text            → search "welcomeView"
-//    4. The app navigation title        → search "navigationTitle"
-//  ─────────────────────────────────────────────────────────────
 
 
 import SwiftUI
