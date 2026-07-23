@@ -14,22 +14,27 @@ AVELA MLX Chatbot — Instructions
 
 ## Using copilot on the right to format dataset, paste Paste this in copilot
 
-I have a JSON dataset on the left. Convert it into LoRA fine-tuning data for a Qwen2.5 model.
+I have a JSON dataset (attached/shown below). Convert it into LoRA fine-tuning data for a Qwen2.5 model.
+
 Output requirements:
-    Output in JSONL format (one JSON object per line).
-Each line must follow this exact format:
+- Output in JSONL format (one JSON object per line).
+- Each line must follow this exact format:
 {"text":"<|im_start|>system\n[system prompt]\n<|im_end|>\n<|im_start|>user\n[question]\n<|im_end|>\n<|im_start|>assistant\n[answer]\n<|im_end|>"}
-    Return raw JSONL only.
-    Do not include explanations, markdown, code fences, numbering, headings, or any extra text.
+- Write the result directly to a file at [FULL_PATH]/train.jsonl. Do not print the JSONL into the chat/terminal output.
+- Do not include any commentary, explanations, markdown, code fences, numbering, headings, tool-call logs, terminal command echoes, or reasoning anywhere in the output file. The file must contain ONLY valid JSONL lines, nothing else — the first character of the file must be `{` and every line must parse as JSON on its own.
+- After writing the file, validate it: confirm every line parses as JSON, confirm it has exactly one "text" key, and confirm the expected line count. Report only pass/fail and the record count back to me — do not paste the file contents back into chat.
+
 Dataset generation requirements:
-    Cover every field in the dataset at least once.
-    Generate at least 6 varied question-answer pairs per entry.
-    Include questions about individual fields as well as questions that combine information from multiple fields.
-    Vary the wording and style of the questions so they do not sound repetitive.
-    Answers should be 2–4 sentences, educational, conversational, and based only on the information in the dataset.
+- Cover every top-level field in the dataset at least once.
+- Generate at least 20 varied question-answer pairs per top-level field (not 6 — 6 per field produces too few examples to actually fine-tune on; aim for 150-300+ total records depending on dataset size).
+- Include questions about individual fields as well as questions that combine information from two or more fields.
+- Vary sentence structure, phrasing, and question style (direct questions, comparisons, yes/no, "which/how many", fill-in-the-blank style) so answers don't sound templated.
+- Answers should be 2–4 sentences, educational, conversational, and based only on the information in the dataset — no invented facts, no outside knowledge.
+- Do not hardcode index numbers or field names into every answer in the same rigid pattern (e.g. always "It appears under the X field at index N") — mix up how the answer references its source.
+
 Important:
-    Replace the current training examples with newly generated examples.
-    Output only the generated JSONL lines. Nothing else.
+- Replace any existing training examples in the output file — do not append.
+- The final file must contain only the generated JSONL lines. Nothing else, at any point in the process, should be written to it or shown to me in chat.
 
 ## After training find the AI generated System prompt, select all occurances (highlight one, press: ⌘ f2, paste your prompt), then paste in YOUR AI's system prompt.
 
