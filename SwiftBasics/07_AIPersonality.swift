@@ -1,30 +1,4 @@
-// ────────────────────────────────────────────────────────────
-//  SECTION 8: AI Personality
-//
-//  The AI reads a "system prompt" before every conversation.
-//  This prompt tells it HOW to behave — its personality, tone,
-//  and rules. Change the prompt → the AI acts differently.
-//
-//  A system prompt is just plain English — no code needed.
-//  Think of it like giving instructions to a new tutor:
-//    "You are friendly. Explain things simply. Stay on topic."
-//
-//  The triple quotes """ let you write text across multiple lines.
-//  The backslash \ at the end of a line means "continue on
-//  the next line" — it keeps one sentence from breaking apart.
-//
-//  This file is ChatViewModel.swift in the Xcode project.
-//  Open it and find SECTION 1 — AI PERSONALITY to edit.
-//
-//  ★ MAIN TASK: Rewrite the system prompt in YOUR words.
-//    Describe how you want YOUR AI to talk, teach, and behave.
-//    Then ask the AI the same question before and after —
-//    see how the response changes!
-// ────────────────────────────────────────────────────────────
-
-// ─────────────────────────────────────────────────────────────
 // In ChatViewModel.swift, find this block:
-// ─────────────────────────────────────────────────────────────
 
 /*
     private let SYSTEM_PROMPT = """
@@ -44,7 +18,7 @@
 //   • Should it be formal or casual? Funny or serious?
 //   • Should it give short answers or long explanations?
 //   • What should it do if someone asks something off-topic?
-//
+
 //   EXAMPLE — a music teacher AI:
 //
 //       private let SYSTEM_PROMPT = """
@@ -64,6 +38,17 @@
 //           Only discuss biology, chemistry, and physics topics.
 //           """
 
+// The AI reads a "system prompt" before every conversation.
+//  This prompt tells it HOW to behave — its personality, tone,
+//  and rules. Change the prompt → the AI acts differently.
+//
+//  A system prompt is just plain English — no code needed.
+//  Think of it like giving instructions to a new tutor:
+//    "You are friendly. Explain things simply. Stay on topic."
+//
+//  The triple quotes """ let you write text across multiple lines.
+//  The backslash \ at the end of a line means "continue on
+//  the next line" — it keeps one sentence from breaking apart.
 // ── Customize Further ─────────────────────────────────────
 //
 // • Try making the AI respond ONLY in questions:
