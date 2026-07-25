@@ -157,8 +157,9 @@ struct ContentView: View {
                         .padding(.top, 20)
                         .disabled(vm.input.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || !vm.isReady)
                 }
-                .padding(.horizontal, 24)
-                .padding(.vertical, 24)
+                .padding(.horizontal, 16)
+                .padding(.top, 12)
+                .padding(.bottom, 44)
 
             }
 #if os(macOS)
