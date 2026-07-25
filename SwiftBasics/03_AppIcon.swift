@@ -3,9 +3,10 @@
 //     and REPLACE it with the code below.
 
       // ★ PICK YOUR APP ICON — replace " ? ":
-            Image(systemName: " ? ")
+            Image("?")
                 .resizable()
                 .aspectRatio(contentMode: .fit)
                 .frame(width: 84, height: 84)
                 .shadow(radius: 8)
-                .padding(.top, 60)
+                .padding(.vertical, 16)
+                .padding(.top, 24)
