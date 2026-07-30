@@ -54,7 +54,7 @@ struct ContentView: View {
            
           //Section 3: App Icon
 
-            if vm.messages.isEmpty {
+            if vm.messages.isEmpty || !vm.isReady {
                 welcomeView
             } else {
                 messagesView
