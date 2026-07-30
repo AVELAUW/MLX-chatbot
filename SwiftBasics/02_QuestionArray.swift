@@ -4,7 +4,8 @@
 //   Each string becomes a tappable button on screen.
 //   EXAMPLES: "Who uses data activism?", "Why does data matter?"
 
-//  COPY & PASTE code below in //Section 2:, replace ?'s your own questions.
+//JUST EDIT
+//Section 2:, replace ?'s your own questions.
 
     private let suggestedQuestions = [
         " ? ",
