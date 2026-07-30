@@ -33,8 +33,13 @@ struct ContentView: View {
     @StateObject private var vm = ChatViewModel()
     @State private var showResetConfirm = false
 
-    //Section 2: Suggested Questions Array
-
+   //Section 2: suggested questions
+    private let suggestedQuestions = [
+        " ? ",
+        " ? ",
+        //ADD YOUR QUESTIONS BELOW (comma after each one)
+   ]
+    
     var body: some View {
         NavigationStack {
             homeView
