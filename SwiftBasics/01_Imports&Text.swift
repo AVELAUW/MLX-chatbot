@@ -33,13 +33,16 @@ struct ContentView: View {
     @StateObject private var vm = ChatViewModel()
     @State private var showResetConfirm = false
 
-   //Section 2: suggested questions
+//----Section 2: suggested questions-----------//
+    
     private let suggestedQuestions = [
         " ? ",
         " ? ",
         //ADD YOUR QUESTIONS BELOW (comma after each one)
    ]
-    
+
+//----End of Section 2: suggested questions----//
+ 
     var body: some View {
         NavigationStack {
             homeView
@@ -56,9 +59,11 @@ struct ContentView: View {
 
     private var homeView: some View {
         VStack(spacing: 0) {
-           
-          //Section 3: App Icon
+//----Section 3: App Icon/sf Symbols-----------//
 
+[Paste here]
+            
+//----End of Section 3: App Icon/sf Symbols----//
             if vm.messages.isEmpty || !vm.isReady {
                 welcomeView
             } else {
@@ -87,6 +92,9 @@ struct ContentView: View {
         VStack(spacing: 32) {
             Spacer()
             VStack(spacing: 16) {
+                
+//----Section 1: Title/Subtitle-----------//
+
                 // ★ CHANGE THE TEXT BELOW TO YOUR OWN WELCOME MESSAGE:
                Text( " ? " )
                     .font(.largeTitle.bold())
@@ -96,6 +104,8 @@ struct ContentView: View {
                     .font(.title3)
                     .foregroundColor(.secondary)
                     .multilineTextAlignment(.center)
+                
+//----End of Section 1: Title/Subtitle----//
 
                 // Suggested question chips
                 HStack(spacing: 12) {
@@ -153,8 +163,11 @@ struct ContentView: View {
                 Divider()
                 HStack(alignment: .top, spacing: 16) {
 
-                //Section 4: message box (text)
+//----Section 4: message box (text)-----------//
+                    
+[Paste here]
 
+//----End of Section 4: message box (text)----//
 
                     Button("Send") { vm.send() }
                         .buttonStyle(.borderedProminent)
